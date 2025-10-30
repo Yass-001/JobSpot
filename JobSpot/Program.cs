@@ -30,10 +30,21 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+    if(!roleManager.RoleExistsAsync("Admin").GetAwaiter().GetResult())
+    {
+        var role  = roleManager.CreateAsync(new IdentityRole("Admin")).GetAwaiter().GetResult();
+    }
+}
+
+    app.UseHttpsRedirection();
 app.UseRouting();
 
-app.UseAuthentication();
+//app.UseAuthentication(); - ?!
 app.UseAuthorization();
 
 app.MapStaticAssets();
