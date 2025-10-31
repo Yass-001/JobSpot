@@ -1,4 +1,5 @@
 
+using JobSpot.Constants;
 using JobSpot.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -33,15 +34,11 @@ if (!app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-    if(!roleManager.RoleExistsAsync("Admin").GetAwaiter().GetResult())
-    {
-        var role  = roleManager.CreateAsync(new IdentityRole("Admin")).GetAwaiter().GetResult();
-    }
+    RoleSeeder.SeedRolesAsync(services).GetAwaiter().GetResult();
 }
 
-    app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.UseRouting();
 
 //app.UseAuthentication(); - ?!
