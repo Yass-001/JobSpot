@@ -36,6 +36,9 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     RoleSeeder.SeedRolesAsync(services).GetAwaiter().GetResult();
+
+    // Optionally seed default users
+    await UserSeeder.SeedUsersAsync(services);
 }
 
 app.UseHttpsRedirection();
