@@ -11,11 +11,11 @@ namespace JobSpot.Data
 
             // Seed an admin user
             await CreateUserWithRole(userManager, "admin@jobspot.com", "Admin@123", UserRoles.Admin, "1234567890");
-            await CreateUserWithRole(userManager, "jobseeker@jobspot.com", "jobseeker@123", UserRoles.JobSeeker, "2345678901");
-            await CreateUserWithRole(userManager, "employer@jobspot.com", "employer@123", UserRoles.Employer, "3456789012");
+            await CreateUserWithRole(userManager, "jobseeker@jobspot.com", "Jobseeker@123", UserRoles.JobSeeker, "2345678901");
+            await CreateUserWithRole(userManager, "employer@jobspot.com", "Employer@123", UserRoles.Employer, "3456789012");
         }
 
-        public static async Task CreateUserWithRole(
+        private static async Task CreateUserWithRole(
             UserManager<IdentityUser> userManager, string email, string password, string role, string phoneNumber)
         {
 
