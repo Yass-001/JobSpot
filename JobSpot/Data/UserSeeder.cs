@@ -10,21 +10,35 @@ namespace JobSpot.Data
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
             // Seed an admin user
+            await CreateUserWithRole(userManager, "admin@jobspot.com", "Admin@123", UserRoles.Admin, "1234567890");
+            await CreateUserWithRole(userManager, "jobseeker@jobspot.com", "jobseeker@123", UserRoles.JobSeeker, "2345678901");
+            await CreateUserWithRole(userManager, "employer@jobspot.com", "employer@123", UserRoles.Employer, "3456789012");
+        }
 
-            if (await userManager.FindByEmailAsync("admin@jobspot.com") == null)
+        public static async Task CreateUserWithRole(
+            UserManager<IdentityUser> userManager, string email, string password, string role, string phoneNumber)
+        {
+
+            if (await userManager.FindByEmailAsync(email) == null)
             {
-                var adminUser = new IdentityUser
+                var user = new IdentityUser
                 {
-                    UserName = "admin@jobspot.com",
-                    Email = "admin@jobspot.com",
-                    EmailConfirmed = true
+                    UserName = email,
+                    Email = email,
+                    EmailConfirmed = true,
+                    PhoneNumber = phoneNumber,
+                    PhoneNumberConfirmed = true
                 };
 
-                var result = await userManager.CreateAsync(adminUser, "Admin@123");
+                var result = await userManager.CreateAsync(user, password);
 
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(adminUser, UserRoles.Admin);
+                    await userManager.AddToRoleAsync(user, role);
+                }
+                else
+                {
+                    throw new Exception($"Failed ro create user with email: {user.Email}. Errors: {String.Join(" ,", result.Errors)}");
                 }
             }
         }
