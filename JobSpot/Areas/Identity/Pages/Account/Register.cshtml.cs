@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using JobSpot.Constants;
 
 namespace JobSpot.Areas.Identity.Pages.Account
 {
@@ -124,7 +125,16 @@ namespace JobSpot.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    var userId = await _userManager.GetUserIdAsync(user);
+                    if (Input.IsJobSeeker)
+                    {
+                        await _userManager.AddToRoleAsync(user, UserRoles.JobSeeker);                    
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, UserRoles.Employer);
+                    }
+
+                        var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
