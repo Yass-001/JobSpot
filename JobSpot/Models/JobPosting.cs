@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace JobSpot.Models
 {
@@ -14,11 +16,15 @@ namespace JobSpot.Models
         public string Company { get; set; }
         [Required]
         public string Location { get; set; }
-        
+
         public DateTime PostedDate { get; set; } // - ?! Default to current date when creating a new posting
 
+        public bool IsApproved { get; set; } = false;
+        [Required]
+        public string UserId { get; set; } // ? Foreign key to the User who posted the job
+        [ForeignKey(nameof(UserId))]
+        public IdentityUser User { get; set; } // Navigation property to the User entity
 
-        public JobPosting() { }
 
 
 
