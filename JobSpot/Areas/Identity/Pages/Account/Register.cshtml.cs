@@ -30,6 +30,7 @@ namespace JobSpot.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -99,6 +100,12 @@ namespace JobSpot.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
+            [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [DataType(DataType.PhoneNumber)]
+            [Display(Name = "PhoneNumber")]
+            public string PhoneNumber { get; set; }
+
             public bool IsJobSeeker { get; set; } = true;
             }
 
@@ -120,6 +127,8 @@ namespace JobSpot.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
+
+                user.PhoneNumber = Input.PhoneNumber;
 
                 if (result.Succeeded)
                 {
