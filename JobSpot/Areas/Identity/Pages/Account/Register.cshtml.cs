@@ -30,7 +30,6 @@ namespace JobSpot.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -128,7 +127,8 @@ namespace JobSpot.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
-                user.PhoneNumber = Input.PhoneNumber;
+                await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+                //user.PhoneNumber = Input.PhoneNumber;
 
                 if (result.Succeeded)
                 {
