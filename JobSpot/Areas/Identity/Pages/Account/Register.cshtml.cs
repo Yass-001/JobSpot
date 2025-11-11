@@ -103,6 +103,10 @@ namespace JobSpot.Areas.Identity.Pages.Account
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.PhoneNumber)]
             [Display(Name = "PhoneNumber")]
+            [RegularExpression(@"^\+?\d{10,15}$", ErrorMessage = "The phone number is not valid.")]
+            // Explanation: The number may start with a + (optional).
+            // It must have between 10 and 15 digits.
+            // No spaces, dashes, or other characters are allowed.
             public string PhoneNumber { get; set; }
 
             public bool IsJobSeeker { get; set; } = true;
