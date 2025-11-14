@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36616.10 d17.14
+VisualStudioVersion = 17.14.36616.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobSpot", "JobSpot\JobSpot.csproj", "{E956D15B-3DEC-444F-A90D-3B3420145E26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobSpot.Repository.Tests", "JobSpot.Repository.Tests\JobSpot.Repository.Tests.csproj", "{8A14D7C5-D8EB-4715-A9CC-5C96AD5BDCEC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E956D15B-3DEC-444F-A90D-3B3420145E26} = {E956D15B-3DEC-444F-A90D-3B3420145E26}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{E956D15B-3DEC-444F-A90D-3B3420145E26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E956D15B-3DEC-444F-A90D-3B3420145E26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E956D15B-3DEC-444F-A90D-3B3420145E26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A14D7C5-D8EB-4715-A9CC-5C96AD5BDCEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A14D7C5-D8EB-4715-A9CC-5C96AD5BDCEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A14D7C5-D8EB-4715-A9CC-5C96AD5BDCEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A14D7C5-D8EB-4715-A9CC-5C96AD5BDCEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
