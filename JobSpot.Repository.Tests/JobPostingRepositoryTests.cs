@@ -55,5 +55,33 @@ namespace JobSpot.Repository.Tests
             Assert.Equal(jobPosting.Id, addedJobPosting.Id); // ?!
             Assert.Equal("Test UserId", addedJobPosting.UserId);
         }
+
+        [Fact]
+        public async Task GetByIdAsync_ShouldReturnJobPosting()
+        {
+            // Arrange
+            using var context = CreateDbContext();
+            var repository = new JobPostingRepository(context);
+            var jobPosting = new JobPosting
+            {
+                Title = "Data Scientist",
+                Description = "Analyze and interpret complex data.",
+                Company = "Data Corp",
+                Location = "San Francisco, CA",
+                PostedDate = DateTime.Now,
+                IsApproved = false,
+                UserId = "Test UserId 2"
+            };
+            await repository.AddAsync(jobPosting);
+            // Act
+            var retrievedJobPosting = await repository.GetByIdAsync(jobPosting.Id);
+            // Assert
+            Assert.NotNull(retrievedJobPosting);
+            Assert.Equal("Data Scientist", retrievedJobPosting.Title);
+            Assert.False(retrievedJobPosting.IsApproved);
+            Assert.ThrowsAny<Exception>(() => Assert.Equal("NonExistentId", retrievedJobPosting.UserId)); // ?!
+            Assert.Throws<KeyNotFoundException>(() => repository.GetByIdAsync(Guid.NewGuid()).GetAwaiter().GetResult()); // ?!
+            await Assert.ThrowsAsync<KeyNotFoundException>(async () => await repository.GetByIdAsync(Guid.NewGuid())); // ?!
+        }
     }
 }
