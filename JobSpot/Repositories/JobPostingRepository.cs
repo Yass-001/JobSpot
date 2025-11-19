@@ -9,10 +9,12 @@ namespace JobSpot.Repositories
     public class JobPostingRepository : IRepository<JobPosting>
     {
         private readonly AppDbContext _context;
+
         public JobPostingRepository(AppDbContext appDbContext)
         {
             _context = appDbContext;
         }
+
         public async Task AddAsync(JobPosting entity)
         {
             if (entity == null)
