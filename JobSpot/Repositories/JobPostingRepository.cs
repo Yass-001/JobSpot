@@ -57,7 +57,8 @@ namespace JobSpot.Repositories
 
         public async Task UpdateAsync(JobPosting entity)
         {
-            _context.JobPostings.Update(entity);
+            //_context.JobPostings.Update(entity);
+
             //await _context.JobPostings
             //    .Where(jp => jp.Id == entity.Id)
             //    .ExecuteUpdateAsync(jp => jp
@@ -66,11 +67,12 @@ namespace JobSpot.Repositories
             //        .SetProperty(jp => jp.Company, entity.Company)
             //        .SetProperty(jp => jp.Location, entity.Location)
             //        .SetProperty(jp => jp.IsApproved, entity.IsApproved));
-            // check the properties to be updated - ?!
-            await _context.SaveChangesAsync();
-
-            //_context.Entry(jobPosting).CurrentValues.SetValues(entity);
+            // check the properties to be updated - ?! - userId, PostedDate - ?!
             //await _context.SaveChangesAsync();
+
+            var jobPostingForUpdate = await _context.JobPostings.FindAsync(entity.Id);
+            _context.Entry(jobPostingForUpdate).CurrentValues.SetValues(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }
