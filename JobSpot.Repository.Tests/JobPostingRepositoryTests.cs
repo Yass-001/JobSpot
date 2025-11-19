@@ -199,6 +199,7 @@ namespace JobSpot.Repository.Tests
             Assert.Contains<JobPosting>(allJobPostings, jp => jp.Company == "Infra Corp");
             Assert.Equal(2, allJobPostings.Count());
             Assert.NotEqual(3, allJobPostings.Count());
+            Assert.True(allJobPostings.Count() >= 2);
             //var jobPostingsList = allJobPostings.ToList();
             //Assert.Equal(2, jobPostingsList.Count);
             Assert.Contains(allJobPostings, jp => jp.Title == "DevOps Engineer");
