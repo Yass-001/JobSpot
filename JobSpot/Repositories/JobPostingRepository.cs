@@ -104,3 +104,4 @@ namespace JobSpot.Repositories
 //•	Use SetValues() (v3) → safest and most EF-friendly for standard updates.
 //•	Use ExecuteUpdateAsync() (v2) → best for performance-critical or bulk operations.
 //•	Use Update() (v1) → fine for simple detached entity updates, but less efficient.
+// v.2 wasn`t working because of LangVersion 13.0 - ExecuteUpdateAsync requires C# 14.0 or higher.
