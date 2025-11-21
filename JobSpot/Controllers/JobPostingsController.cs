@@ -31,16 +31,18 @@ namespace JobSpot.Controllers
         //[ValidateAntiForgeryToken] // Prevent CSRF attacks - ?!
         public async Task<IActionResult> Create(JobPosting jobPosting)
         {
-            if (ModelState.IsValid)
-            {
-                jobPosting.PostedDate = DateTime.Now;
-                jobPosting.IsApproved = true; // Auto-approve for simplicity
-                var user = await _userManager.GetUserAsync(User);
-                jobPosting.UserId = user?.Id ?? "Anonymous"; // Assign UserId or "Anonymous"
-                await _jobPostingRepository.AddAsync(jobPosting);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(jobPosting);
+            //if (ModelState.IsValid)
+            //{
+            //    jobPosting.PostedDate = DateTime.Now;
+            //    jobPosting.IsApproved = true; // Auto-approve for simplicity
+            //    var user = await _userManager.GetUserAsync(User);
+            //    jobPosting.UserId = user?.Id ?? "Anonymous"; // Assign UserId or "Anonymous"
+            //    await _jobPostingRepository.AddAsync(jobPosting);
+            //    return RedirectToAction(nameof(Index));
+            //}
+            //return View(jobPosting);
+
+            return RedirectToAction(nameof(Index));
         }
 
 
