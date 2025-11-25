@@ -1,5 +1,6 @@
 ﻿using JobSpot.Models;
 using JobSpot.Repositories;
+using JobSpot.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,17 +30,28 @@ namespace JobSpot.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken] // Prevent CSRF attacks - ?!
-        public async Task<IActionResult> Create(JobPosting jobPosting)
+        public async Task<IActionResult> Create(JobPostingViewModel jobPostingVM)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    jobPosting.PostedDate = DateTime.Now;
-            //    jobPosting.IsApproved = true; // Auto-approve for simplicity
-            //    var user = await _userManager.GetUserAsync(User);
-            //    jobPosting.UserId = user?.Id ?? "Anonymous"; // Assign UserId or "Anonymous"
-            //    await _jobPostingRepository.AddAsync(jobPosting);
-            //    return RedirectToAction(nameof(Index));
-            //}
+            if (ModelState.IsValid)
+            {
+                var jobPosting = new JobPosting
+                {
+                    Title = jobPostingVM.Title,
+                    Description = jobPostingVM.Description,
+                    Company = jobPostingVM.Company,
+                    Location = jobPostingVM.Location,
+                    UserId = _userManager.GetUserId(User)
+                };
+
+                await _jobPostingRepository.AddAsync(jobPosting);
+
+                //    jobPosting.PostedDate = DateTime.Now;
+                //    jobPosting.IsApproved = true; // Auto-approve for simplicity
+                //    var user = await _userManager.GetUserAsync(User);
+                //    jobPosting.UserId = user?.Id ?? "Anonymous"; // Assign UserId or "Anonymous"
+                //    await _jobPostingRepository.AddAsync(jobPosting);
+                //    return RedirectToAction(nameof(Index));
+            }
             //return View(jobPosting);
 
             return RedirectToAction(nameof(Index));

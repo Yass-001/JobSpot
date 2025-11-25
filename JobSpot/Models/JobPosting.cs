@@ -17,7 +17,7 @@ namespace JobSpot.Models
         [Required]
         public string Location { get; set; }
 
-        public DateTime PostedDate { get; set; } // - ?! Default to current date when creating a new posting
+        public DateTime PostedDate { get; set; } = DateTime.UtcNow; // - ?! Default to current date when creating a new posting
 
         public bool IsApproved { get; set; } = false;
         [Required]
