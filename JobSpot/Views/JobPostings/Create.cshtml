@@ -1,4 +1,4 @@
-﻿@model JobSpot.Models.JobPosting
+﻿@model JobSpot.ViewModels.JobPostingViewModel;
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,6 +10,22 @@
 
 <form action="Create" method="post">
 
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label"></label>
+        <input type="text" asp-for="Title" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea type="text" asp-for="Description" class="form-control"></textarea>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Company" class="form-label"></label>
+        <input type="text" asp-for="Company" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Location" class="form-label"></label>
+        <input type="text" asp-for="Location" class="form-control" />
+    </div>
 
     <button type="submit" class="btn btn-primary">Create</button>
 
