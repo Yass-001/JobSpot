@@ -1,11 +1,13 @@
 ﻿using JobSpot.Models;
 using JobSpot.Repositories;
 using JobSpot.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JobSpot.Controllers
 {
+    [Authorize]
     public class JobPostingsController : Controller
     {
         private readonly IRepository<JobPosting> _jobPostingRepository;
@@ -17,18 +19,21 @@ namespace JobSpot.Controllers
             _userManager = userManager;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var jobPostings = await _jobPostingRepository.GetAllAsync(); // IEnumerable<JobPosting>
             return View(jobPostings);
         }
 
+        [Authorize(Roles = "Admin,Employer")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Employer")]
         public async Task<IActionResult> Create(JobPostingViewModel jobPostingVM)
         {
             if (ModelState.IsValid)
