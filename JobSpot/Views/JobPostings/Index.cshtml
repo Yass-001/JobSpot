@@ -1,7 +1,54 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<JobSpot.Models.JobPosting>
+
 @{
+    ViewData["Title"] = "Job Postings";
 }
 
 <h1>Job Postings</h1>
+
+<div class="list-group">
+
+    @foreach (var jobPosting in Model)
+    {
+        <div class="list-group-item">
+            <h3>@jobPosting.Title</h3>
+            <p>@jobPosting.Description</p>
+            <p><strong>Company:</strong> @jobPosting.Company</p>
+            <p><strong>Location:</strong> @jobPosting.Location</p>
+            <p><strong>Posted Date:</strong> @jobPosting.PostedDate.ToShortDateString()</p>
+            @* <p><strong>Is Approved:</strong> @(jobPosting.IsApproved ? "Yes" : "No")</p> *@
+        </div>
+    }
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Company</th>
+            <th>Location</th>
+            <th>Posted Date</th>
+            <th>Is Approved</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var job in Model)
+        {
+            <tr>
+                <td>@job.Title</td>
+                <td>@job.Company</td>
+                <td>@job.Location</td>
+                <td>@job.PostedDate.ToShortDateString()</td>
+                <td>@job.IsApproved</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@job.Id">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@job.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@job.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-primary">Create New</a>
