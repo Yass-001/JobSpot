@@ -49,11 +49,8 @@ namespace JobSpot.Controllers
                 //    var user = await _userManager.GetUserAsync(User);
                 //    jobPosting.UserId = user?.Id ?? "Anonymous"; // Assign UserId or "Anonymous"
                 //    await _jobPostingRepository.AddAsync(jobPosting);
-
             }
             return View(jobPostingVM);
         }
-
-
     }
 }
