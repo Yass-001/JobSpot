@@ -58,29 +58,37 @@ namespace JobSpot.Controllers
             return View(jobPostingVM);
         }
 
+        [HttpDelete]
         [Authorize(Roles = "Admin,Employer")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var jobPosting = await _jobPostingRepository.GetByIdAsync(id);
-            if (jobPosting == null)
-            {
-                return NotFound();
-            }
-            return View(jobPosting);
+            return Ok();
         }
 
-        [HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken] // Uncomment if CSRF protection is needed
-        [Authorize(Roles = "Admin,Employer")]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var jobPosting = await _jobPostingRepository.GetByIdAsync(id);
-            if (jobPosting == null)
-            {
-                return NotFound();
-            }
-            await _jobPostingRepository.DeleteAsync(jobPosting.Id);
-            return RedirectToAction(nameof(Index));
-        }
+
+        //[Authorize(Roles = "Admin,Employer")]
+        //public async Task<IActionResult> Delete(Guid id)
+        //{
+        //    var jobPosting = await _jobPostingRepository.GetByIdAsync(id);
+        //    if (jobPosting == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(jobPosting);
+        //}
+
+        //[HttpPost, ActionName("Delete")]
+        ////[ValidateAntiForgeryToken] // Uncomment if CSRF protection is needed
+        //[Authorize(Roles = "Admin,Employer")]
+        //public async Task<IActionResult> DeleteConfirmed(Guid id)
+        //{
+        //    var jobPosting = await _jobPostingRepository.GetByIdAsync(id);
+        //    if (jobPosting == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    await _jobPostingRepository.DeleteAsync(jobPosting.Id);
+        //    return RedirectToAction(nameof(Index));
+        //}
     }
 }
