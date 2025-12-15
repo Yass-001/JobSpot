@@ -24,7 +24,7 @@
    @*              <a asp-action="Edit" asp-route-id="@jobPosting.Id" class="btn btn-secondary">Edit</a>
                 <a asp-action="Delete" asp-route-id="@jobPosting.Id" class="btn btn-danger">Delete</a> *@
                 <div>
-                    <button onclick="deleteJobPosting" class="btn-sm btn-danger">Delete</button>
+                    <button onclick="deleteJobPosting(@jobPosting.Id)" class="btn-sm btn-danger">Delete</button>
                 </div>
             }
 
@@ -70,7 +70,7 @@
 @section Scripts {
     <script>
         function deleteJobPosting(id){
-            confirm("Are you sure you want to delete this job posting?");
+            confirm("Are you sure you want to delete this job posting?" + id);
         }
     </script>
 }
