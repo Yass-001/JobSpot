@@ -4,7 +4,6 @@ using JobSpot.Data;
 using JobSpot.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using JobSpot.Repositories;
 using JobSpot.Models;
 
 var builder = WebApplication.CreateBuilder(args);
