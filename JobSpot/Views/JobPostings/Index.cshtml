@@ -2,7 +2,7 @@
 @using JobSpot.Constants
 
 @{
-    ViewData["Title"] = "Job Postings";
+    // ViewData["Title"] = "Job Postings";
 }
 
 <h1 class="text-center m-5">All Jobs</h1>
@@ -21,10 +21,10 @@
             @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Employer))
             {
                 <div>
-                    <button type="button" onclick="deleteJobPosting(@jobPosting.Id)"
-                            class="btn btn-sm btn-danger">
+                    <div onclick="deleteJobPosting('@jobPosting.Id')"
+                         class="btn btn-sm btn-danger">
                         Delete
-                    </button>
+                    </div>
                 </div>
             }
         </div>
@@ -43,7 +43,7 @@
                 // error -> alert the user/show error message
 
                 $.ajax({
-                    url: "@Url.Action("Delete", "JobPostings")/" + id, //.../jobpostings/delete/id
+                    url: '@Url.Action("Delete", "JobPostings")/' + id,
                     type: "DELETE",
                     success: function (result) {
                         $("#job-posting-" + id).remove(); // Remove the job posting from the DOM
