@@ -62,6 +62,24 @@ namespace JobSpot.Controllers
         [Authorize(Roles = "Admin,Employer")]
         public async Task<IActionResult> Delete(Guid id)
         {
+            var jobPosting = await _jobPostingRepository.GetByIdAsync(id);
+
+            if (jobPosting == null)
+            {
+                return NotFound();
+            }
+
+            var userId = _userManager.GetUserId(User);
+
+            if (User.IsInRole("Admin") || jobPosting.UserId == userId)
+            {
+                await _jobPostingRepository.DeleteAsync(id);
+            }
+            else
+            {
+                return Forbid();
+            }
+
             return Ok();
         }
 
