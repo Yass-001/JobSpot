@@ -22,6 +22,14 @@ namespace JobSpot.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
+            if (User.IsInRole("Employer"))
+            {
+                var userId = _userManager.GetUserId(User);
+                var allJobPostings = await _jobPostingRepository.GetAllAsync(); // IEnumerable<JobPosting>
+                var userJobPostings = allJobPostings.Where(jp => jp.UserId == userId);
+                return View(userJobPostings);
+            }
+
             var jobPostings = await _jobPostingRepository.GetAllAsync(); // IEnumerable<JobPosting>
             return View(jobPostings);
         }
