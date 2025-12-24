@@ -5,6 +5,7 @@ using JobSpot.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using JobSpot.Models;
+using JobSpot.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddScoped<IRepository<JobPosting>, JobPostingRepository>();
+
+builder.Services.AddScoped<IUserManager, UserManagerAdapter>();
 
 // Add razor pages support
 builder.Services.AddRazorPages();

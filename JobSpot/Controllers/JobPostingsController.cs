@@ -1,9 +1,11 @@
-﻿using JobSpot.Models;
+﻿using JobSpot.Interfaces;
+using JobSpot.Models;
 using JobSpot.Repositories;
 using JobSpot.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace JobSpot.Controllers
 {
@@ -11,9 +13,9 @@ namespace JobSpot.Controllers
     public class JobPostingsController : Controller
     {
         private readonly IRepository<JobPosting> _jobPostingRepository;
-        private readonly UserManager<IdentityUser> _userManager; // IUserManager injection - ?!
+        private readonly IUserManager _userManager; // IUserManager injection - ?!
 
-        public JobPostingsController(IRepository<JobPosting> repository, UserManager<IdentityUser> userManager)
+        public JobPostingsController(IRepository<JobPosting> repository, IUserManager userManager)
         {
             _jobPostingRepository = repository;
             _userManager = userManager;
