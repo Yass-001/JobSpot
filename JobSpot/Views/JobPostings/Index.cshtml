@@ -5,29 +5,53 @@
     ViewData["Title"] = "Job Postings";
 }
 
-<h1 class="text-center m-5">All Jobs</h1>
+<style>
+    .font-thick-bold {
+        font-family: 'Segoe UI', 'Arial Black', Arial, sans-serif;
+        font-weight: 900 !important;
+        letter-spacing: 1px;
+    }
+    .card-title.font-thick-bold {
+        font-size: 1.35rem;
+    }
+    .card-text.font-thick-bold,
+    .list-unstyled.font-thick-bold li,
+    .btn.font-thick-bold {
+        font-size: 1.05rem;
+    }
+</style>
 
-<div class="list-group">
-    @foreach (var jobPosting in Model)
-    {
-        <div class="list-group-item" id="job-posting-@jobPosting.Id">
-            <h3>@jobPosting.Title</h3>
-            <p>@jobPosting.Description</p>
-            <p><strong>Company:</strong> @jobPosting.Company</p>
-            <p><strong>Location:</strong> @jobPosting.Location</p>
-            <p><strong>Posted Date:</strong> @jobPosting.PostedDate.ToShortDateString()</p>
+<h1 class="text-center my-5 font-thick-bold" style="font-size: 2.5rem; color: #343a40; letter-spacing: 2px;">All Jobs</h1>
 
-            @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Employer))
-            {
-                <div>
-                    <div onclick="deleteJobPosting('@jobPosting.Id')"
-                         class="btn btn-sm btn-danger">
-                        Delete
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var jobPosting in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm" id="job-posting-@jobPosting.Id" style="border-radius: 1rem; border: 1px solid #e3e6f0;">
+                    <div class="card-body" style="background: #f8f9fc;">
+                        <h5 class="card-title text-primary" style="font-weight: 600;">@jobPosting.Title</h5>
+                        <p class="card-text" style="color: #5a5c69;">@jobPosting.Description</p>
+                        <ul class="list-unstyled mb-3" style="font-size: 0.95rem;">
+                            <li><i class="bi bi-building"></i> <strong>Company:</strong> <span style="color: #4e73df;">@jobPosting.Company</span></li>
+                            <li><i class="bi bi-geo-alt"></i> <strong>Location:</strong> <span style="color: #36b9cc;">@jobPosting.Location</span></li>
+                            <li><i class="bi bi-calendar"></i> <strong>Posted:</strong> <span style="color: #858796;">@jobPosting.PostedDate.ToShortDateString()</span></li>
+                        </ul>
+                        @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Employer))
+                        {
+                            <a asp-action="Edit" asp-route-id="@jobPosting.Id" class="btn btn-sm btn-primary me-2" style="border-radius: 0.5rem;">
+                                <i class="bi bi-pencil"></i> Edit
+                            </a>
+                            <button onclick="deleteJobPosting('@jobPosting.Id')"
+                                    class="btn btn-sm btn-danger" style="border-radius: 0.5rem;">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        }
                     </div>
                 </div>
-            }
-        </div>
-    }
+            </div>
+        }
+    </div>
 </div>
 
 @section Scripts {
@@ -57,39 +81,5 @@
         }
     </script>
 }
-
-@* <h2 class="text-center m-lg-5">All Jobs v.2</h2>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Company</th>
-            <th>Location</th>
-            <th>Posted Date</th>
-            <th>Is Approved</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var job in Model)
-        {
-            <tr>
-                <td>@job.Title</td>
-                <td>@job.Company</td>
-                <td>@job.Location</td>
-                <td>@job.PostedDate.ToShortDateString()</td>
-                <td>@job.IsApproved</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@job.Id">Details</a> |
-                    <a asp-action="Edit" asp-route-id="@job.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@job.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<a asp-action="Create" class="btn btn-primary">Create New</a> *@
 
 

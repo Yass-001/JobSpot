@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace JobSpot.ViewModels
 {
     public class JobPostingViewModel
     {
+        [ReadOnly(true)]
+        public Guid Id { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]

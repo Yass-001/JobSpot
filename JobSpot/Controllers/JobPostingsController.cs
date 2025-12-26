@@ -5,6 +5,8 @@ using JobSpot.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Reflection.Metadata.Ecma335;
 
 
 namespace JobSpot.Controllers
@@ -67,6 +69,68 @@ namespace JobSpot.Controllers
             }
             return View(jobPostingVM);
         }
+
+        [Authorize(Roles = "Admin,Employer")]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var jobPosting = await _jobPostingRepository.GetByIdAsync(id);
+            if (jobPosting == null)
+            {
+                return NotFound();
+            }
+
+            var userId = _userManager.GetUserId(User);
+            if (!User.IsInRole("Admin") && jobPosting.UserId != userId)
+            {
+                return Forbid();
+            }
+
+            var viewModel = new JobPostingViewModel
+            {
+                Id = jobPosting.Id,
+                Title = jobPosting.Title,
+                Description = jobPosting.Description,
+                Company = jobPosting.Company,
+                Location = jobPosting.Location
+                // Add other properties as needed
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin,Employer")]
+        public async Task<IActionResult> Edit(JobPostingViewModel jobPostingViewModel)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View(jobPostingViewModel);
+            }
+
+            var jobPosting = await _jobPostingRepository.GetByIdAsync(jobPostingViewModel.Id);
+                if (jobPosting == null)
+            {
+                 return NotFound();
+            }
+
+            var userId = _userManager.GetUserId(User);
+            if (!User.IsInRole("Admin") && jobPosting.UserId != userId)
+            {
+                return Forbid();
+            }
+
+            // Update fields
+            jobPosting.Title = jobPostingViewModel.Title;
+            jobPosting.Description = jobPostingViewModel.Description;
+            jobPosting.Company = jobPostingViewModel.Company;
+            jobPosting.Location = jobPostingViewModel.Location;
+            // Add other fields as needed
+
+            await _jobPostingRepository.UpdateAsync(jobPosting);
+
+            return RedirectToAction(nameof(Index));
+        }
+
 
         [HttpDelete]
         [Authorize(Roles = "Admin,Employer")]
