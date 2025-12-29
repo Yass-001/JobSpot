@@ -1,4 +1,3 @@
-
 using JobSpot.Constants;
 using JobSpot.Data;
 using JobSpot.Repositories;
@@ -6,8 +5,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using JobSpot.Models;
 using JobSpot.Interfaces;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Month)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Host.UseSerilog();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
