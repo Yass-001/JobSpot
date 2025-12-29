@@ -102,15 +102,15 @@ namespace JobSpot.Controllers
         [Authorize(Roles = "Admin,Employer")]
         public async Task<IActionResult> Edit(JobPostingViewModel jobPostingViewModel)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(jobPostingViewModel);
             }
 
             var jobPosting = await _jobPostingRepository.GetByIdAsync(jobPostingViewModel.Id);
-                if (jobPosting == null)
+            if (jobPosting == null)
             {
-                 return NotFound();
+                return NotFound();
             }
 
             var userId = _userManager.GetUserId(User);
