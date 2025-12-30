@@ -16,11 +16,13 @@ namespace JobSpot.Controllers
     {
         private readonly IRepository<JobPosting> _jobPostingRepository;
         private readonly IUserManager _userManager; // IUserManager injection - ?!
+        private ILogger<JobPostingsController> _logger;
 
-        public JobPostingsController(IRepository<JobPosting> repository, IUserManager userManager)
+        public JobPostingsController(IRepository<JobPosting> repository, IUserManager userManager, ILogger<JobPostingsController> logger)
         {
             _jobPostingRepository = repository;
             _userManager = userManager;
+            _logger = logger;
         }
 
         [AllowAnonymous]
@@ -31,6 +33,7 @@ namespace JobSpot.Controllers
                 var userId = _userManager.GetUserId(User);
                 var allJobPostings = await _jobPostingRepository.GetAllAsync(); // IEnumerable<JobPosting>
                 var userJobPostings = allJobPostings.Where(jp => jp.UserId == userId);
+                _logger.LogInformation("Employer {UserId} accessed their job postings.", userId); // - ?!
                 return View(userJobPostings);
             }
 
@@ -60,6 +63,7 @@ namespace JobSpot.Controllers
                 };
 
                 await _jobPostingRepository.AddAsync(jobPosting);
+                _logger.LogInformation("Job posting created: {JobTitle} by User: {UserId}", jobPosting.Title, jobPosting.UserId);
                 return RedirectToAction(nameof(Index));
 
                 //    jobPosting.IsApproved = true; // Auto-approve for simplicity
@@ -127,6 +131,7 @@ namespace JobSpot.Controllers
             // Add other fields as needed
 
             await _jobPostingRepository.UpdateAsync(jobPosting);
+            _logger.LogInformation("Job posting updated: {JobTitle} by User: {UserId}", jobPosting.Title, jobPosting.UserId);
 
             return RedirectToAction(nameof(Index));
         }
@@ -148,6 +153,7 @@ namespace JobSpot.Controllers
             if (User.IsInRole("Admin") || jobPosting.UserId == userId)
             {
                 await _jobPostingRepository.DeleteAsync(id);
+                _logger.LogInformation("Job posting deleted: {JobTitle} by User: {UserId}", jobPosting.Title, userId);
             }
             else
             {
