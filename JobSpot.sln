@@ -5,7 +5,7 @@ VisualStudioVersion = 17.14.36616.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobSpot", "JobSpot\JobSpot.csproj", "{E956D15B-3DEC-444F-A90D-3B3420145E26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobSpot.Repository.Tests", "JobSpot.Repository.Tests\JobSpot.Repository.Tests.csproj", "{8A14D7C5-D8EB-4715-A9CC-5C96AD5BDCEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobSpot.Tests", "JobSpot.Repository.Tests\JobSpot.Tests.csproj", "{8A14D7C5-D8EB-4715-A9CC-5C96AD5BDCEC}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E956D15B-3DEC-444F-A90D-3B3420145E26} = {E956D15B-3DEC-444F-A90D-3B3420145E26}
 	EndProjectSection
