@@ -230,21 +230,19 @@ namespace JobSpot.Repository.Tests
             var id = Guid.NewGuid();
             var posting = new JobPosting { Id = id, Title = "EditMe", UserId = "editor" };
             repoMock.Setup(r => r.GetByIdAsync(id)).ReturnsAsync(posting);
-
+            userManagerMock.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("editor");
             var controller = new JobPostingsController(repoMock.Object, userManagerMock.Object, loggerMock.Object)
             {
-                ControllerContext = CreateControllerContext("editor", "Employer") // - ?!
+                ControllerContext = CreateControllerContext("editor", "Employer")
             };
-
-            // viewmodel is not used - but had to?
 
             // Act
             var result = await controller.Edit(id);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsType<JobPosting>(viewResult.Model);
-            Assert.Equal(posting.Title, model.Title); // - ?!
+            var model = Assert.IsType<JobPostingViewModel>(viewResult.Model);
+            Assert.Equal(posting.Title, model.Title);
         }
 
         [Fact]
