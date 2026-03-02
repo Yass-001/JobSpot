@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
 
 
@@ -53,6 +54,7 @@ namespace JobSpot.Controllers
         {
             if (ModelState.IsValid)
             {
+                try {
                 var jobPosting = new JobPosting
                 {
                     Title = jobPostingVM.Title,
@@ -65,12 +67,18 @@ namespace JobSpot.Controllers
                 await _jobPostingRepository.AddAsync(jobPosting);
                 _logger.LogInformation("Job posting created: {JobTitle} by User: {UserId}", jobPosting.Title, jobPosting.UserId);
                 return RedirectToAction(nameof(Index));
-
                 //    jobPosting.IsApproved = true; // Auto-approve for simplicity
                 //    var user = await _userManager.GetUserAsync(User);
                 //    jobPosting.UserId = user?.Id ?? "Anonymous"; // Assign UserId or "Anonymous"
                 //    await _jobPostingRepository.AddAsync(jobPosting);
+            } 
+                catch(Exception ex)
+                { 
+                    _logger.LogError(ex, "Error creating job posting."); // "Error creating job posting: {JobTitle} by User: {UserId}", jobPostingVM.Title, _userManager.GetUserId(User)
+                    return View(jobPostingVM); // Return the view with the model to show validation errors or other issues
+                }
             }
+
             return View(jobPostingVM);
         }
 

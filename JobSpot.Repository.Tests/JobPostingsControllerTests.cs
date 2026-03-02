@@ -174,7 +174,6 @@ namespace JobSpot.Repository.Tests
             var repoMock = new Mock<IRepository<JobPosting>>();
             var userManagerMock = new Mock<IUserManager>();
             var loggerMock = new Mock<ILogger<JobPostingsController>>();
-
             var id = Guid.NewGuid();
             repoMock.Setup(r => r.GetByIdAsync(id)).ReturnsAsync((JobPosting?)null);
 
@@ -281,7 +280,6 @@ namespace JobSpot.Repository.Tests
             // Assert
             repoMock.Verify(r => r.UpdateAsync(It.IsAny<JobPosting>()), Times.Once);
             repoMock.Verify(r => r.UpdateAsync(It.Is<JobPosting>(jp => jp.Title == vm.Title)), Times.Once);
-            //Moq.MockException : Expected invocation on the mock once, but was 0 times
             var redirect = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal(nameof(JobPostingsController.Index), redirect.ActionName);
         }
@@ -305,8 +303,10 @@ namespace JobSpot.Repository.Tests
                 Company = "C",
                 Location = "L"
             };
+
             // Act
             var result = await controller.Edit(vm);
+
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsType<JobPostingViewModel>(viewResult.Model);
@@ -365,8 +365,10 @@ namespace JobSpot.Repository.Tests
                 Company = "C",
                 Location = "L"
             };
+
             // Act
             var result = await controller.Edit(vm);
+
             // Assert
             Assert.IsType<NotFoundResult>(result);
             repoMock.Verify(r => r.UpdateAsync(It.IsAny<JobPosting>()), Times.Never);
@@ -391,8 +393,10 @@ namespace JobSpot.Repository.Tests
                 Company = "C",
                 Location = "L"
             };
+
             // Act
             var result = await controller.Create(vm);
+
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
             var model = Assert.IsType<JobPostingViewModel>(viewResult.Model);
@@ -406,6 +410,7 @@ namespace JobSpot.Repository.Tests
             var repoMock = new Mock<IRepository<JobPosting>>();
             var userManagerMock = new Mock<IUserManager>();
             var loggerMock = new Mock<ILogger<JobPostingsController>>();
+
             var userId = "creator-1";
             userManagerMock.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
             repoMock.Setup(r => r.AddAsync(It.IsAny<JobPosting>()))
@@ -421,14 +426,16 @@ namespace JobSpot.Repository.Tests
                 Company = "C",
                 Location = "L"
             };
+
             // Act
             var result = await controller.Create(vm);
+
             // Assert
             loggerMock.Verify(
                 l => l.Log(
                     LogLevel.Error,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((v, t) => v.ToString().Contains("Database error")),
+                    It.Is<It.IsAnyType>((v, t) => v.ToString().Contains("Error creating job posting.")),
                     It.IsAny<Exception>(),
                     It.IsAny<Func<It.IsAnyType, Exception, string>>()),
                 Times.Once);
