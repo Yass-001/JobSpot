@@ -236,6 +236,8 @@ namespace JobSpot.Repository.Tests
                 ControllerContext = CreateControllerContext("editor", "Employer") // - ?!
             };
 
+            // viewmodel is not used - but had to?
+
             // Act
             var result = await controller.Edit(id);
 
@@ -268,6 +270,7 @@ namespace JobSpot.Repository.Tests
 
             var vm = new JobPostingViewModel
             {
+                Id = id,
                 Title = "NewTitle",
                 Description = "D",
                 Company = "C",
@@ -275,10 +278,12 @@ namespace JobSpot.Repository.Tests
             };
 
             // Act
-            var result = await controller.Edit( vm);
+            var result = await controller.Edit(vm);
 
             // Assert
+            repoMock.Verify(r => r.UpdateAsync(It.IsAny<JobPosting>()), Times.Once);
             repoMock.Verify(r => r.UpdateAsync(It.Is<JobPosting>(jp => jp.Title == vm.Title)), Times.Once);
+            //Moq.MockException : Expected invocation on the mock once, but was 0 times
             var redirect = Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal(nameof(JobPostingsController.Index), redirect.ActionName);
         }
@@ -332,8 +337,10 @@ namespace JobSpot.Repository.Tests
                 Company = "C",
                 Location = "L"
             };
+
             // Act
-            var result = await controller.Edit(vm);
+            var result = await controller.Edit(id); //var result = await controller.Edit(vm); - was so
+
             // Assert
             Assert.IsType<ForbidResult>(result);
             repoMock.Verify(r => r.UpdateAsync(It.IsAny<JobPosting>()), Times.Never);
