@@ -51,8 +51,8 @@ namespace JobSpot.Repository.Tests
             Assert.Equal("New York, NY", addedJobPosting.Location);
             Assert.True(addedJobPosting.IsApproved);
             Assert.Equal("Develop and maintain software applications.", addedJobPosting.Description);
-            Assert.Equal(jobPosting.PostedDate, addedJobPosting.PostedDate); // ?!
-            Assert.Equal(jobPosting.Id, addedJobPosting.Id); // ?!
+            Assert.Equal(jobPosting.PostedDate, addedJobPosting.PostedDate);
+            Assert.Equal(jobPosting.Id, addedJobPosting.Id);
             Assert.Equal("Test UserId", addedJobPosting.UserId);
         }
 
@@ -72,7 +72,7 @@ namespace JobSpot.Repository.Tests
                 IsApproved = false,
                 UserId = "Test UserId 2"
             };
-            //await repository.AddAsync(jobPosting); // we are not testing AddAsync here, so it's fine to use DB context directly
+
             await context.JobPostings.AddAsync(jobPosting);
             await context.SaveChangesAsync();
 
@@ -127,7 +127,8 @@ namespace JobSpot.Repository.Tests
         {
             // Arrange
             using var context = CreateDbContext();
-            var repository = new JobPostingRepository(context);
+            var repository = new JobPostingRepository(context)
+
             // Act & Assert
             await Assert.ThrowsAsync<KeyNotFoundException>(async () => await repository.DeleteAsync(Guid.NewGuid()));
         }
@@ -200,8 +201,6 @@ namespace JobSpot.Repository.Tests
             Assert.Equal(2, allJobPostings.Count());
             Assert.NotEqual(3, allJobPostings.Count());
             Assert.True(allJobPostings.Count() >= 2);
-            //var jobPostingsList = allJobPostings.ToList();
-            //Assert.Equal(2, jobPostingsList.Count);
             Assert.Contains(allJobPostings, jp => jp.Title == "DevOps Engineer");
             Assert.Contains(allJobPostings, jp => jp.Title == "UI/UX Designer");
             Assert.Collection(allJobPostings, new Action<JobPosting>[] {
