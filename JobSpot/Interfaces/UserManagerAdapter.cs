@@ -22,6 +22,6 @@ namespace JobSpot.Interfaces
             return _userManager.GetUserId(user);
         }
 
-        // Add other necessary user management methods as neededSystem.Security.Claims.
+        // Add other necessary user management methods as needed System.Security.Claims.
     }
 }
