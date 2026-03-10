@@ -216,8 +216,6 @@ namespace JobSpot.Repository.Tests
             repoMock.Verify(r => r.DeleteAsync(It.IsAny<Guid>()), Times.Never);
         }
 
-        // Expand tests to cover Edit(Guid) and other edge cases similarly.
-
         [Fact]
         public async Task Edit_Get_ReturnsView_WithJobPosting()
         {
@@ -298,7 +296,7 @@ namespace JobSpot.Repository.Tests
             controller.ModelState.AddModelError("Title", "Required");
             var vm = new JobPostingViewModel
             {
-                Title = "", // Invalid
+                Title = "",
                 Description = "D",
                 Company = "C",
                 Location = "L"
@@ -337,7 +335,7 @@ namespace JobSpot.Repository.Tests
             };
 
             // Act
-            var result = await controller.Edit(id); //var result = await controller.Edit(vm); - was so
+            var result = await controller.Edit(id);
 
             // Assert
             Assert.IsType<ForbidResult>(result);
@@ -388,7 +386,7 @@ namespace JobSpot.Repository.Tests
             controller.ModelState.AddModelError("Title", "Required");
             var vm = new JobPostingViewModel
             {
-                Title = "", // Invalid
+                Title = "",
                 Description = "D",
                 Company = "C",
                 Location = "L"

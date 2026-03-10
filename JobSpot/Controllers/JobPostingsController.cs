@@ -16,7 +16,7 @@ namespace JobSpot.Controllers
     public class JobPostingsController : Controller
     {
         private readonly IRepository<JobPosting> _jobPostingRepository;
-        private readonly IUserManager _userManager; //IUserManager injection
+        private readonly IUserManager _userManager;
         private ILogger<JobPostingsController> _logger;
 
         public JobPostingsController(IRepository<JobPosting> repository, IUserManager userManager, ILogger<JobPostingsController> logger)
@@ -32,13 +32,13 @@ namespace JobSpot.Controllers
             if (User.IsInRole("Employer"))
             {
                 var userId = _userManager.GetUserId(User);
-                var allJobPostings = await _jobPostingRepository.GetAllAsync(); //IEnumerable<JobPosting>
+                var allJobPostings = await _jobPostingRepository.GetAllAsync();
                 var userJobPostings = allJobPostings.Where(jp => jp.UserId == userId);
-                _logger.LogInformation("Employer {UserId} accessed their job postings.", userId); // - ?!
+                _logger.LogInformation("Employer {UserId} accessed their job postings.", userId);
                 return View(userJobPostings);
             }
 
-            var jobPostings = await _jobPostingRepository.GetAllAsync(); //IEnumerable<JobPosting>
+            var jobPostings = await _jobPostingRepository.GetAllAsync();
             return View(jobPostings);
         }
 
@@ -74,8 +74,8 @@ namespace JobSpot.Controllers
             } 
                 catch(Exception ex)
                 { 
-                    _logger.LogError(ex, "Error creating job posting."); // "Error creating job posting: {JobTitle} by User: {UserId}", jobPostingVM.Title, _userManager.GetUserId(User)
-                    return View(jobPostingVM); // Return the view with the model to show validation errors or other issues
+                    _logger.LogError(ex, "Error creating job posting.");
+                    return View(jobPostingVM);
                 }
             }
 
@@ -170,31 +170,5 @@ namespace JobSpot.Controllers
 
             return Ok();
         }
-
-
-        //[Authorize(Roles = "Admin,Employer")]
-        //public async Task<IActionResult> Delete(Guid id)
-        //{
-        //    var jobPosting = await _jobPostingRepository.GetByIdAsync(id);
-        //    if (jobPosting == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(jobPosting);
-        //}
-
-        //[HttpPost, ActionName("Delete")]
-        ////[ValidateAntiForgeryToken] // Uncomment if CSRF protection is needed
-        //[Authorize(Roles = "Admin,Employer")]
-        //public async Task<IActionResult> DeleteConfirmed(Guid id)
-        //{
-        //    var jobPosting = await _jobPostingRepository.GetByIdAsync(id);
-        //    if (jobPosting == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    await _jobPostingRepository.DeleteAsync(jobPosting.Id);
-        //    return RedirectToAction(nameof(Index));
-        //}
     }
 }
