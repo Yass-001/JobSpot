@@ -16,7 +16,7 @@ namespace JobSpot.Controllers
     public class JobPostingsController : Controller
     {
         private readonly IRepository<JobPosting> _jobPostingRepository;
-        private readonly IUserManager _userManager; // IUserManager injection - ?!
+        private readonly IUserManager _userManager; //IUserManager injection
         private ILogger<JobPostingsController> _logger;
 
         public JobPostingsController(IRepository<JobPosting> repository, IUserManager userManager, ILogger<JobPostingsController> logger)
@@ -32,13 +32,13 @@ namespace JobSpot.Controllers
             if (User.IsInRole("Employer"))
             {
                 var userId = _userManager.GetUserId(User);
-                var allJobPostings = await _jobPostingRepository.GetAllAsync(); // IEnumerable<JobPosting>
+                var allJobPostings = await _jobPostingRepository.GetAllAsync(); //IEnumerable<JobPosting>
                 var userJobPostings = allJobPostings.Where(jp => jp.UserId == userId);
                 _logger.LogInformation("Employer {UserId} accessed their job postings.", userId); // - ?!
                 return View(userJobPostings);
             }
 
-            var jobPostings = await _jobPostingRepository.GetAllAsync(); // IEnumerable<JobPosting>
+            var jobPostings = await _jobPostingRepository.GetAllAsync(); //IEnumerable<JobPosting>
             return View(jobPostings);
         }
 

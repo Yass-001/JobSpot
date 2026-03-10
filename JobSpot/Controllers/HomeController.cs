@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JobSpot.Controllers
 {
-    public class HomeController : Controller  // DELETE ME LATER !!! & Delete the corresponding View HOME folder !!!
+    public class HomeController : Controller  //  DELETE ME LATER  !!! & Delete the corresponding View HOME folder !!!
     {
         // GET: HomeController
         public ActionResult Index()
