@@ -35,15 +35,15 @@ builder.Services.AddScoped<IUserManager, UserManagerAdapter>();
 builder.Services.AddRazorPages();
 
 // configure application cookie settings for authentication
-builder.Services.AddAuthentication(defaultScheme: "cookie") // different authentication schemes can be added here if needed, for example, JWT Bearer, OAuth, etc. Default is cookie-based authentication, so we just can call AddAuthentication() without parameters.
-    .AddCookie( "cookie", options =>
-    {
-        options.Cookie.Name = "JobSpotAuthCookie";
-        options.ExpireTimeSpan = TimeSpan.FromHours(8);
-        options.LoginPath = "/Identity/Account/Login";
-        options.LogoutPath = "/Identity/Account/Logout";
-        options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // don`t forget to set this
-    });
+//builder.Services.AddAuthentication(defaultScheme: "cookie") // different authentication schemes can be added here if needed, for example, JWT Bearer, OAuth, etc. Default is cookie-based authentication, so we just can call AddAuthentication() without parameters.
+//    .AddCookie( "cookie", options =>
+//    {
+//        options.Cookie.Name = "JobSpotAuthCookie";
+//        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+//        options.LoginPath = "/Identity/Account/Login";
+//        options.LogoutPath = "/Identity/Account/Logout";
+//        options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // don`t forget to set this
+//    });
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -69,7 +69,7 @@ using (var scope = app.Services.CreateScope())
 app.UseHttpsRedirection();
 app.UseRouting();
 
-app.UseAuthentication();
+//app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
