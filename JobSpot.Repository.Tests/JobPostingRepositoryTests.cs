@@ -127,7 +127,7 @@ namespace JobSpot.Repository.Tests
         {
             // Arrange
             using var context = CreateDbContext();
-            var repository = new JobPostingRepository(context)
+            var repository = new JobPostingRepository(context);
 
             // Act & Assert
             await Assert.ThrowsAsync<KeyNotFoundException>(async () => await repository.DeleteAsync(Guid.NewGuid()));
