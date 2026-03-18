@@ -46,7 +46,11 @@ builder.Services.AddAuthentication(defaultScheme: "cookie") // different authent
     })
     .AddGoogle("Google", options =>
     {
-
+        options.ClientId = ""; // https://console.cloud.google.com/ -> after Y register your app ->
+                               // create OAuth 2.0 Client ID -> copy the client ID and client secret here
+        options.ClientSecret = "";
+        //options.CallbackPath = "/signin-google"; // https://console.cloud.google.com/ -> register your app -> set the authorized redirect URI to https://localhost:????/signin-google (or whatever your app URL is) -> use this path as CallbackPath
+        options.SignInScheme = "cookie"; // specify the sign-in scheme to use after successful authentication
     });
 
 // Add services to the container.
