@@ -23,7 +23,7 @@ namespace JobSpot.Areas.Identity.Pages.Account
                 RedirectUri = returnUrl 
             };
 
-            return Challenge(properties, "Google");
+            return Challenge(properties, "Google"); 
         }
     }
 }
