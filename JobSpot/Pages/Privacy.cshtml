@@ -4,5 +4,86 @@
     ViewData["Title"] = "Privacy Policy";
 }
 
-<h1>@ViewData["Title"]</h1>
-<p>Your privacy policy content here.</p>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="privacy-header mb-5">
+                <h1 class="text-primary fw-bold mb-2">@ViewData["Title"]</h1>
+                <p class="text-muted small">Last updated: April 15th, 2026</p>
+            </div>
+
+            <div class="mb-3">
+                <h5 class="text-secondary fw-bold mb-3">Quick Links</h5>
+                <nav class="list-group list-group-horizontal-sm">
+                    <a href="#commitment" class="list-group-item list-group-item-action">Commitment</a>
+                    <a href="#contact" class="list-group-item list-group-item-action">Contact</a>
+                </nav>
+            </div>
+
+            <div class="card shadow-sm mb-4" id="commitment">
+                <div class="card-body">
+                    <h5 class="card-title privacy-card-title text-secondary">Our Commitment</h5>
+                    <p class="card-text text-muted">
+                        We respect your privacy and are committed to protecting it through our compliance with this privacy policy ("Policy"). This Policy describes the types of information we may collect from you or that you may provide ("Personal Information") on the JobSpot website ("Website") and any of its related products and services (collectively, "Services"), and our practices for collecting, using, maintaining, protecting, and disclosing that Personal Information. It also describes the choices available to you regarding our use of your Personal Information and how you can access and update it.
+                    </p>
+                    <p class="card-text text-muted">
+                        This Policy is a legally binding agreement between you ("User", "you" or "your") and JobSpot ("JobSpot", "we", "us" or "our"). If you are entering into this agreement on behalf of a business or other legal entity, you represent that you have the authority to bind such entity to this agreement, in which case the terms "User", "you" or "your" shall refer to such entity. If you do not have such authority, or if you do not agree with the terms of this agreement, you must not accept this agreement and may not access and use the Services. By accessing and using the Services, you acknowledge that you have read, understood, and agree to be bound by the terms of this Policy.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4" id="contact">
+                <div class="card-body">
+                    <h5 class="card-title privacy-card-title text-secondary">   Contacting Us</h5>
+                    <p class="card-text text-muted">
+                        If you have any questions regarding the information we may hold about you or if you wish to exercise your rights, we encourage you to contact us:
+                    </p>
+                    <div class="alert alert-info" role="alert">
+                        <strong>Email:</strong> <a href="mailto:info@jobspot.com">info@jobspot.com</a>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="text-center text-muted mt-6 pt-5 border-top">
+                <small>© @DateTime.Now.Year JobSpot. All rights reserved.</small>
+            </footer>   
+        </div>
+    </div>
+</div>
+
+<style>
+    .privacy-header {
+        border-bottom: 2px solid #0d6efd;
+        padding-bottom: 1rem;
+    }
+
+    .card {
+        border: none;
+        border-left: 4px solid #0d6efd;
+    }
+    
+    .card-title {
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .list-group-item {
+        border: none;
+        padding: 0.5rem 1rem;
+    }
+
+    .list-group-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .alert-info {
+        background-color: #e9f5ff;
+        border-color: #b8daff;
+    }
+
+    /* Additional space before footer */
+    footer {
+        margin-top: 5rem;
+        padding-top: 2rem;
+    }
+</style>
