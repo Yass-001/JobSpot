@@ -1,12 +1,13 @@
 using JobSpot.Constants;
 using JobSpot.Data;
+using JobSpot.Interfaces;
+using JobSpot.Models;
 using JobSpot.Repositories;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using JobSpot.Models;
-using JobSpot.Interfaces;
 using Serilog;
-using Microsoft.AspNetCore.Authentication.OAuth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,24 +29,6 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
-// remove the default cookie authentication configuration added by AddDefaultIdentity and configure it manually to set custom options like cookie name, expiration time, login path, etc. This is necessary because AddDefaultIdentity adds cookie authentication with default settings, and we want to customize those settings for our application. By calling AddAuthentication() and AddCookie() after AddDefaultIdentity(), we can override the default cookie authentication configuration with our custom settings.
-//builder.Services.AddAuthentication(options =>
-//{
-//    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme; // This is the default scheme used for authentication, which is cookie-based authentication configured by AddDefaultIdentity. You can specify a different scheme if you have multiple authentication methods.
-//    options.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
-//    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
-//})
-//    .AddIdentityCookies(options =>
-//    {
-//        // Configure the actual CookieAuthenticationOptions via the OptionsBuilder
-//        options.ApplicationCookie?.Configure(o =>
-//        {
-//            o.ExpireTimeSpan = TimeSpan.FromHours(8);
-//            o.AccessDeniedPath = "/Identity/Account/AccessDenied";
-//            // other cookie options on `o`...
-//        });
-//    });
-
 builder.Services.AddScoped<IRepository<JobPosting>, JobPostingRepository>();
 
 builder.Services.AddScoped<IUserManager, UserManagerAdapter>();
@@ -53,33 +36,73 @@ builder.Services.AddScoped<IUserManager, UserManagerAdapter>();
 // Add razor pages support
 builder.Services.AddRazorPages();
 
-// AddDefaultIdentity<IdentityUser>() already configures cookie authentication internally
-//configure application cookie settings for authentication
-//builder.Services.AddAuthentication(defaultScheme: "cookie") // different authentication schemes can be added here if needed, for example, JWT Bearer, OAuth, etc. Default is cookie-based authentication, so we just can call AddAuthentication() without parameters.
-//    .AddCookie("cookie", options =>
-//    {
-//        options.Cookie.Name = "JobSpotAuthCookie";
-//        options.ExpireTimeSpan = TimeSpan.FromHours(8);
-//        options.LoginPath = "/Identity/Account/Login";
-//        options.LogoutPath = "/Identity/Account/Logout";
-//        options.AccessDeniedPath = "/Identity/Account/AccessDenied"; // don`t forget to set this
-//    });
-//.AddGoogle("Google", options =>
-//{
-//    options.ClientId = ""; // https://console.cloud.google.com/ -> after Y register your app ->
-//                           // create OAuth 2.0 Client ID -> copy the client ID and client secret here
-//    options.ClientSecret = "";
-//    //options.CallbackPath = "/signin-google"; // https://console.cloud.google.com/ -> register your app -> set the authorized redirect URI to https://localhost:????/signin-google (or whatever your app URL is) -> use this path as CallbackPath
-//    options.SignInScheme = "cookie"; // specify the sign-in scheme to use after successful authentication
+// Add ClaimsService for managing user claims
+builder.Services.AddScoped<IClaimsService, ClaimsService>();
 
-//options.Events = new OAuthEvents
-//{
-//    OnCreatingTicket = e =>
-//    {
-//        e.Principal. // Here you can add custom claims or perform additional processing after successful authentication
-//    }
-//};       
-//});
+// Add Claims-based Authorization Policies
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("CanCreateJobPosting", policy =>
+        policy.RequireClaim(ApplicationClaimTypes.Permission, ApplicationClaimTypes.CreateJobPosting))
+    .AddPolicy("CanEditJobPosting", policy =>
+        policy.RequireClaim(ApplicationClaimTypes.Permission, ApplicationClaimTypes.EditJobPosting))
+    .AddPolicy("CanDeleteJobPosting", policy =>
+        policy.RequireClaim(ApplicationClaimTypes.Permission, ApplicationClaimTypes.DeleteJobPosting))
+    .AddPolicy("CanViewJobPosting", policy =>
+        policy.RequireClaim(ApplicationClaimTypes.Permission, ApplicationClaimTypes.ViewJobPosting))
+    .AddPolicy("CanManageUsers", policy =>
+        policy.RequireClaim(ApplicationClaimTypes.Permission, ApplicationClaimTypes.ManageUsers))
+    .AddPolicy("IsEmployer", policy =>
+        policy.RequireRole(UserRoles.Employer))
+    .AddPolicy("IsAdmin", policy =>
+        policy.RequireRole(UserRoles.Admin))
+    .AddPolicy("EmployerOrAdmin", policy =>
+        policy.RequireRole(UserRoles.Employer, UserRoles.Admin));
+
+// Configure Authentication with Google OAuth and Custom Claims
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = "Cookies";
+    options.DefaultChallengeScheme = "Google";
+    options.DefaultSignInScheme = "Cookies";
+})
+    .AddCookie("Cookies", options =>
+    {
+        options.Cookie.Name = "JobSpotAuthCookie";
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        options.LoginPath = "/Identity/Account/Login";
+        options.LogoutPath = "/Identity/Account/Logout";
+        options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+        options.SlidingExpiration = true;
+    })
+    .AddGoogle("Google", options =>
+    {
+        options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? ""; // https://console.cloud.google.com/ -> after Y register your app ->
+                                                                                          // create OAuth 2.0 Client ID -> copy the client ID and client secret here
+        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? ""; // https://console.cloud.google.com/ -> register your app -> set the authorized redirect URI
+                                                                                                  // to https://localhost:????/signin-google (or whatever your app URL is) -> use this path as CallbackPath
+        options.CallbackPath = "/signin-google"; // This should match the authorized redirect URI you set in the Google Developer Console
+        options.SignInScheme = "Cookies";
+        options.SaveTokens = true; // Important: This saves access tokens as UserTokens
+        options.Events = new OAuthEvents
+        {
+            OnCreatingTicket = async context =>
+            {
+                // Store the access token and refresh token
+                var accessToken = context.AccessToken;
+                var refreshToken = context.RefreshToken;
+
+                if (!string.IsNullOrEmpty(accessToken))
+                {
+                    context.Properties.StoreTokens(new[]
+                    {
+                        new AuthenticationToken { Name = "access_token", Value = accessToken },
+                        new AuthenticationToken { Name = "refresh_token", Value = refreshToken ?? "" }
+                    });
+                }
+            }
+        };
+    });
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -98,8 +121,8 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     RoleSeeder.SeedRolesAsync(services).GetAwaiter().GetResult();
-
     await UserSeeder.SeedUsersAsync(services);
+    await ClaimSeeder.SeedClaimsAsync(services);
 }
 
 app.UseHttpsRedirection();
