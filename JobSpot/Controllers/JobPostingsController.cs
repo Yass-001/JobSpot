@@ -1,4 +1,7 @@
-﻿using JobSpot.Interfaces;
+﻿// Changed for auth claims, previous version before change: 0.4.5
+// wasn`t done
+
+using JobSpot.Interfaces;
 using JobSpot.Models;
 using JobSpot.Repositories;
 using JobSpot.ViewModels;
@@ -8,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
-
 
 namespace JobSpot.Controllers
 {
@@ -42,14 +44,14 @@ namespace JobSpot.Controllers
             return View(jobPostings);
         }
 
-        [Authorize(Roles = "Admin,Employer")]
+        [Authorize(Policy = "CanCreateJobPosting")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Employer")]
+        [Authorize(Policy = "CanCreateJobPosting")]
         public async Task<IActionResult> Create(JobPostingViewModel jobPostingVM)
         {
             if (ModelState.IsValid)
@@ -82,8 +84,8 @@ namespace JobSpot.Controllers
             return View(jobPostingVM);
         }
 
-        [Authorize(Roles = "Admin,Employer")]
-        public async Task<IActionResult> Edit(Guid id)
+        [Authorize(Policy = "CanEditJobPosting")]
+        public async Task<IActionResult> Edit(Guid id) // IActionResult Edit(Guid id)
         {
             var jobPosting = await _jobPostingRepository.GetByIdAsync(id);
             if (jobPosting == null)
@@ -111,7 +113,7 @@ namespace JobSpot.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Employer")]
+        [Authorize(Policy = "CanEditJobPosting")]
         public async Task<IActionResult> Edit(JobPostingViewModel jobPostingViewModel)
         {
             if (!ModelState.IsValid)
@@ -146,7 +148,7 @@ namespace JobSpot.Controllers
 
 
         [HttpDelete]
-        [Authorize(Roles = "Admin,Employer")]
+        [Authorize(Policy = "CanDeleteJobPosting")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var jobPosting = await _jobPostingRepository.GetByIdAsync(id);
