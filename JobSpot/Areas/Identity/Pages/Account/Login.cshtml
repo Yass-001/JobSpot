@@ -53,11 +53,14 @@
             @{
                 if ((Model.ExternalLogins?.Count ?? 0) == 0)
                 {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
+                    <div class="mt-3">
+                        <p>Or login with:</p>
+                        <form action="/Identity/Account/ExternalLogin" method="post">
+                            <input type="hidden" name="provider" value="Google" />
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fab fa-google"></i> Login with Google
+                            </button>
+                        </form>
                     </div>
                 }
                 else
