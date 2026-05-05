@@ -4,6 +4,6 @@ namespace JobSpot.Data
 {
     public class ApplicationUserRole : IdentityUserRole<string>
     {
-        public string UserName { get; set; }
+        public string UserName { get; set; } = string.Empty;
     }
 }

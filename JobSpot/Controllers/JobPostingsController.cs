@@ -31,9 +31,17 @@ namespace JobSpot.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            if (User.IsInRole("Employer"))
+            if (User.IsInRole("Employer")) // see an error here? It`s not a typo, it`s a change for auth claims, previous version before change: 0.4.5
             {
                 var userId = _userManager.GetUserId(User);
+
+                // Add null check before using userId
+                if (string.IsNullOrEmpty(userId))
+                {
+                    _logger.LogWarning("GetUserId returned null for an Employer role user");
+                    return RedirectToAction("Login", "Account"); // Or handle appropriately
+                }
+
                 var allJobPostings = await _jobPostingRepository.GetAllAsync();
                 var userJobPostings = allJobPostings.Where(jp => jp.UserId == userId);
                 _logger.LogInformation("Employer {UserId} accessed their job postings.", userId);
@@ -44,14 +52,16 @@ namespace JobSpot.Controllers
             return View(jobPostings);
         }
 
-        [Authorize(Policy = "CanCreateJobPosting")]
+        //[Authorize(Policy = "CanCreateJobPosting")]
+        [Authorize(Roles = "Admin,Employer")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Policy = "CanCreateJobPosting")]
+        //[Authorize(Policy = "CanCreateJobPosting")]
+        [Authorize(Roles = "Admin,Employer")]
         public async Task<IActionResult> Create(JobPostingViewModel jobPostingVM)
         {
             if (ModelState.IsValid)
@@ -84,7 +94,8 @@ namespace JobSpot.Controllers
             return View(jobPostingVM);
         }
 
-        [Authorize(Policy = "CanEditJobPosting")]
+        //[Authorize(Policy = "CanEditJobPosting")]
+        [Authorize(Roles = "Admin,Employer")]
         public async Task<IActionResult> Edit(Guid id) // IActionResult Edit(Guid id)
         {
             var jobPosting = await _jobPostingRepository.GetByIdAsync(id);
@@ -113,7 +124,8 @@ namespace JobSpot.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "CanEditJobPosting")]
+        //[Authorize(Policy = "CanEditJobPosting")]
+        [Authorize(Roles = "Admin,Employer")]
         public async Task<IActionResult> Edit(JobPostingViewModel jobPostingViewModel)
         {
             if (!ModelState.IsValid)
@@ -148,7 +160,8 @@ namespace JobSpot.Controllers
 
 
         [HttpDelete]
-        [Authorize(Policy = "CanDeleteJobPosting")]
+        //[Authorize(Policy = "CanDeleteJobPosting")]
+        [Authorize(Roles = "Admin,Employer")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var jobPosting = await _jobPostingRepository.GetByIdAsync(id);
