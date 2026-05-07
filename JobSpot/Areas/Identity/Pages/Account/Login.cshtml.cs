@@ -96,7 +96,15 @@ namespace JobSpot.Areas.Identity.Pages.Account
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            try
+            {
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading external authentication schemes");
+                ExternalLogins = new List<AuthenticationScheme>();
+            }
 
             ReturnUrl = returnUrl;
         }
@@ -105,7 +113,15 @@ namespace JobSpot.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            try
+            {
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading external authentication schemes");
+                ExternalLogins = new List<AuthenticationScheme>();
+            }
 
             if (ModelState.IsValid)
             {
