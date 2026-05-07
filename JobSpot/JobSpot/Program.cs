@@ -54,7 +54,7 @@ builder.Services.AddAuthentication(options =>
         {
             throw new InvalidOperationException("Google OAuth credentials are not configured.");
         }
-
+        
         options.ClientId = clientId;
         options.ClientSecret = clientSecret;
         // https://console.cloud.google.com/ -> after Y register your app ->
