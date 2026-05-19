@@ -40,6 +40,7 @@ namespace JobSpot.Repository.Tests
         {
             // Arrange
             var repoMock = new Mock<IRepository<JobPosting>>();
+            var concreteRepoMock = new Mock<JobPostingRepository>();
             var userManagerMock = new Mock<IUserManager>();
             var loggerMock = new Mock<ILogger<JobPostingsController>>();
 
@@ -50,7 +51,7 @@ namespace JobSpot.Repository.Tests
             };
             repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(list);
 
-            var controller = new JobPostingsController(repoMock.Object, userManagerMock.Object, loggerMock.Object)
+            var controller = new JobPostingsController(repoMock.Object, concreteRepoMock.Object, userManagerMock.Object, loggerMock.Object)
             {
                 ControllerContext = CreateControllerContext()
             };
@@ -69,6 +70,7 @@ namespace JobSpot.Repository.Tests
         {
             // Arrange
             var repoMock = new Mock<IRepository<JobPosting>>();
+            var concreteRepoMock = new Mock<JobPostingRepository>();
             var userManagerMock = new Mock<IUserManager>();
             var loggerMock = new Mock<ILogger<JobPostingsController>>();
 
@@ -81,7 +83,7 @@ namespace JobSpot.Repository.Tests
             repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(all);
             userManagerMock.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
 
-            var controller = new JobPostingsController(repoMock.Object, userManagerMock.Object, loggerMock.Object)
+            var controller = new JobPostingsController(repoMock.Object, concreteRepoMock.Object, userManagerMock.Object, loggerMock.Object)
             {
                 ControllerContext = CreateControllerContext(userId, "Employer")
             };
@@ -101,6 +103,7 @@ namespace JobSpot.Repository.Tests
         {
             // Arrange
             var repoMock = new Mock<IRepository<JobPosting>>();
+            var concreteRepoMock = new Mock<JobPostingRepository>();
             var userManagerMock = new Mock<IUserManager>();
             var loggerMock = new Mock<ILogger<JobPostingsController>>();
 
@@ -112,7 +115,7 @@ namespace JobSpot.Repository.Tests
                 .Returns(Task.CompletedTask)
                 .Callback<JobPosting>(jp => captured = jp);
 
-            var controller = new JobPostingsController(repoMock.Object, userManagerMock.Object, loggerMock.Object)
+            var controller = new JobPostingsController(repoMock.Object, concreteRepoMock.Object, userManagerMock.Object, loggerMock.Object)
             {
                 ControllerContext = CreateControllerContext(userId, "Employer")
             };
@@ -143,6 +146,7 @@ namespace JobSpot.Repository.Tests
         {
             // Arrange
             var repoMock = new Mock<IRepository<JobPosting>>();
+            var concreteRepoMock = new Mock<JobPostingRepository>();
             var userManagerMock = new Mock<IUserManager>();
             var loggerMock = new Mock<ILogger<JobPostingsController>>();
 
@@ -154,7 +158,7 @@ namespace JobSpot.Repository.Tests
             repoMock.Setup(r => r.DeleteAsync(id)).Returns(Task.CompletedTask);
             userManagerMock.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
 
-            var controller = new JobPostingsController(repoMock.Object, userManagerMock.Object, loggerMock.Object)
+            var controller = new JobPostingsController(repoMock.Object, concreteRepoMock.Object, userManagerMock.Object, loggerMock.Object)
             {
                 ControllerContext = CreateControllerContext(userId)
             };
@@ -172,12 +176,13 @@ namespace JobSpot.Repository.Tests
         {
             // Arrange
             var repoMock = new Mock<IRepository<JobPosting>>();
+            var concreteRepoMock = new Mock<JobPostingRepository>();
             var userManagerMock = new Mock<IUserManager>();
             var loggerMock = new Mock<ILogger<JobPostingsController>>();
             var id = Guid.NewGuid();
             repoMock.Setup(r => r.GetByIdAsync(id)).ReturnsAsync((JobPosting?)null);
 
-            var controller = new JobPostingsController(repoMock.Object, userManagerMock.Object, loggerMock.Object)
+            var controller = new JobPostingsController(repoMock.Object, concreteRepoMock.Object, userManagerMock.Object, loggerMock.Object)
             {
                 ControllerContext = CreateControllerContext("any")
             };
@@ -195,6 +200,7 @@ namespace JobSpot.Repository.Tests
         {
             // Arrange
             var repoMock = new Mock<IRepository<JobPosting>>();
+            var concreteRepoMock = new Mock<JobPostingRepository>();
             var userManagerMock = new Mock<IUserManager>();
             var loggerMock = new Mock<ILogger<JobPostingsController>>();
 
@@ -203,7 +209,7 @@ namespace JobSpot.Repository.Tests
             repoMock.Setup(r => r.GetByIdAsync(id)).ReturnsAsync(posting);
             userManagerMock.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("different-user");
 
-            var controller = new JobPostingsController(repoMock.Object, userManagerMock.Object, loggerMock.Object)
+            var controller = new JobPostingsController(repoMock.Object, concreteRepoMock.Object, userManagerMock.Object, loggerMock.Object)
             {
                 ControllerContext = CreateControllerContext("different-user")
             };
@@ -221,6 +227,7 @@ namespace JobSpot.Repository.Tests
         {
             // Arrange
             var repoMock = new Mock<IRepository<JobPosting>>();
+            var concreteRepoMock = new Mock<JobPostingRepository>();
             var userManagerMock = new Mock<IUserManager>();
             var loggerMock = new Mock<ILogger<JobPostingsController>>();
 
@@ -228,7 +235,7 @@ namespace JobSpot.Repository.Tests
             var posting = new JobPosting { Id = id, Title = "EditMe", UserId = "editor" };
             repoMock.Setup(r => r.GetByIdAsync(id)).ReturnsAsync(posting);
             userManagerMock.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("editor");
-            var controller = new JobPostingsController(repoMock.Object, userManagerMock.Object, loggerMock.Object)
+            var controller = new JobPostingsController(repoMock.Object, concreteRepoMock.Object, userManagerMock.Object, loggerMock.Object)
             {
                 ControllerContext = CreateControllerContext("editor", "Employer")
             };
@@ -247,6 +254,7 @@ namespace JobSpot.Repository.Tests
         {
             // Arrange
             var repoMock = new Mock<IRepository<JobPosting>>();
+            var concreteRepoMock = new Mock<JobPostingRepository>();
             var userManagerMock = new Mock<IUserManager>();
             var loggerMock = new Mock<ILogger<JobPostingsController>>();
 
@@ -258,7 +266,7 @@ namespace JobSpot.Repository.Tests
             repoMock.Setup(r => r.UpdateAsync(It.IsAny<JobPosting>())).Returns(Task.CompletedTask);
             userManagerMock.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
 
-            var controller = new JobPostingsController(repoMock.Object, userManagerMock.Object, loggerMock.Object)
+            var controller = new JobPostingsController(repoMock.Object, concreteRepoMock.Object, userManagerMock.Object, loggerMock.Object)
             {
                 ControllerContext = CreateControllerContext(userId, "Employer")
             };
@@ -287,9 +295,10 @@ namespace JobSpot.Repository.Tests
         {
             // Arrange
             var repoMock = new Mock<IRepository<JobPosting>>();
+            var concreteRepoMock = new Mock<JobPostingRepository>();
             var userManagerMock = new Mock<IUserManager>();
             var loggerMock = new Mock<ILogger<JobPostingsController>>();
-            var controller = new JobPostingsController(repoMock.Object, userManagerMock.Object, loggerMock.Object)
+            var controller = new JobPostingsController(repoMock.Object, concreteRepoMock.Object, userManagerMock.Object, loggerMock.Object)
             {
                 ControllerContext = CreateControllerContext("editor", "Employer")
             };
@@ -316,13 +325,14 @@ namespace JobSpot.Repository.Tests
         {
             // Arrange
             var repoMock = new Mock<IRepository<JobPosting>>();
+            var concreteRepoMock = new Mock<JobPostingRepository>();
             var userManagerMock = new Mock<IUserManager>();
             var loggerMock = new Mock<ILogger<JobPostingsController>>();
             var id = Guid.NewGuid();
             var existingPosting = new JobPosting { Id = id, Title = "OldTitle", UserId = "owner" };
             repoMock.Setup(r => r.GetByIdAsync(id)).ReturnsAsync(existingPosting);
             userManagerMock.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("different-user");
-            var controller = new JobPostingsController(repoMock.Object, userManagerMock.Object, loggerMock.Object)
+            var controller = new JobPostingsController(repoMock.Object, concreteRepoMock.Object, userManagerMock.Object, loggerMock.Object)
             {
                 ControllerContext = CreateControllerContext("different-user", "Employer")
             };
@@ -348,11 +358,12 @@ namespace JobSpot.Repository.Tests
         {
             // Arrange
             var repoMock = new Mock<IRepository<JobPosting>>();
+            var concreteRepoMock = new Mock<JobPostingRepository>();
             var userManagerMock = new Mock<IUserManager>();
             var loggerMock = new Mock<ILogger<JobPostingsController>>();
             var id = Guid.NewGuid();
             repoMock.Setup(r => r.GetByIdAsync(id)).ReturnsAsync((JobPosting?)null);
-            var controller = new JobPostingsController(repoMock.Object, userManagerMock.Object, loggerMock.Object)
+            var controller = new JobPostingsController(repoMock.Object, concreteRepoMock.Object, userManagerMock.Object, loggerMock.Object)
             {
                 ControllerContext = CreateControllerContext("editor", "Employer")
             };
@@ -377,9 +388,10 @@ namespace JobSpot.Repository.Tests
         {
             // Arrange
             var repoMock = new Mock<IRepository<JobPosting>>();
+            var concreteRepoMock = new Mock<JobPostingRepository>();
             var userManagerMock = new Mock<IUserManager>();
             var loggerMock = new Mock<ILogger<JobPostingsController>>();
-            var controller = new JobPostingsController(repoMock.Object, userManagerMock.Object, loggerMock.Object)
+            var controller = new JobPostingsController(repoMock.Object, concreteRepoMock.Object, userManagerMock.Object, loggerMock.Object)
             {
                 ControllerContext = CreateControllerContext("creator", "Employer")
             };
@@ -406,6 +418,7 @@ namespace JobSpot.Repository.Tests
         {
             // Arrange
             var repoMock = new Mock<IRepository<JobPosting>>();
+            var concreteRepoMock = new Mock<JobPostingRepository>();
             var userManagerMock = new Mock<IUserManager>();
             var loggerMock = new Mock<ILogger<JobPostingsController>>();
 
@@ -413,7 +426,7 @@ namespace JobSpot.Repository.Tests
             userManagerMock.Setup(um => um.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns(userId);
             repoMock.Setup(r => r.AddAsync(It.IsAny<JobPosting>()))
                 .ThrowsAsync(new Exception("Database error"));
-            var controller = new JobPostingsController(repoMock.Object, userManagerMock.Object, loggerMock.Object)
+            var controller = new JobPostingsController(repoMock.Object, concreteRepoMock.Object, userManagerMock.Object, loggerMock.Object)
             {
                 ControllerContext = CreateControllerContext(userId, "Employer")
             };

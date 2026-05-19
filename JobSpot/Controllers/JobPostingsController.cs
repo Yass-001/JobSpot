@@ -18,38 +18,98 @@ namespace JobSpot.Controllers
     public class JobPostingsController : Controller
     {
         private readonly IRepository<JobPosting> _jobPostingRepository;
+        private readonly JobPostingRepository _jobPostingRepositoryConcrete; // For access to custom methods
         private readonly IUserManager _userManager;
         private ILogger<JobPostingsController> _logger;
 
-        public JobPostingsController(IRepository<JobPosting> repository, IUserManager userManager, ILogger<JobPostingsController> logger)
+        public JobPostingsController(IRepository<JobPosting> repository, JobPostingRepository jobPostingRepositoryConcrete, IUserManager userManager, ILogger<JobPostingsController> logger)
         {
             _jobPostingRepository = repository;
+            _jobPostingRepositoryConcrete = jobPostingRepositoryConcrete;
             _userManager = userManager;
             _logger = logger;
         }
 
+        /// <summary>
+        /// Display job listings with advanced search, filtering, sorting, and pagination
+        /// </summary>
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string searchQuery = null,
+            string category = null,
+            decimal? salaryMin = null,
+            decimal? salaryMax = null,
+            int? postedWithinDays = null,
+            JobSortOption sortBy = JobSortOption.Newest,
+            int pageNumber = 1,
+            int pageSize = 10)
         {
-            if (User.IsInRole("Employer")) // see an error here? It`s not a typo, it`s a change for auth claims, previous version before change: 0.4.5
+            try
             {
-                var userId = _userManager.GetUserId(User);
-
-                // Add null check before using userId
-                if (string.IsNullOrEmpty(userId))
+                // If user is Employer, show only their postings (without search/filter)
+                if (User.IsInRole("Employer"))
                 {
-                    _logger.LogWarning("GetUserId returned null for an Employer role user");
-                    return RedirectToAction("Login", "Account"); // Or handle appropriately
+                    var userId = _userManager.GetUserId(User);
+                    if (string.IsNullOrEmpty(userId))
+                    {
+                        _logger.LogWarning("GetUserId returned null for an Employer role user");
+                        return RedirectToAction("Login", "Account");
+                    }
+
+                    var allJobPostings = await _jobPostingRepository.GetAllAsync();
+                    var userJobPostings = allJobPostings.Where(jp => jp.UserId == userId).ToList();
+                    _logger.LogInformation("Employer {UserId} accessed their job postings.", userId);
+
+                    return View(new PaginatedResult<JobPosting>
+                    {
+                        Items = userJobPostings,
+                        TotalCount = userJobPostings.Count,
+                        PageNumber = 1,
+                        PageSize = userJobPostings.Count
+                    });
                 }
 
-                var allJobPostings = await _jobPostingRepository.GetAllAsync();
-                var userJobPostings = allJobPostings.Where(jp => jp.UserId == userId);
-                _logger.LogInformation("Employer {UserId} accessed their job postings.", userId);
-                return View(userJobPostings);
-            }
+                // For job seekers/public: perform search, filter, and pagination
+                var result = await _jobPostingRepositoryConcrete.SearchAndFilterAsync(
+                    searchQuery: searchQuery,
+                    category: category,
+                    salaryMin: salaryMin,
+                    salaryMax: salaryMax,
+                    postedWithinDays: postedWithinDays,
+                    sortOption: sortBy,
+                    pageNumber: pageNumber,
+                    pageSize: pageSize);
 
-            var jobPostings = await _jobPostingRepository.GetAllAsync();
-            return View(jobPostings);
+                // Get available categories for filter dropdown
+                var categories = await _jobPostingRepositoryConcrete.GetCategoriesAsync();
+
+                // Create filter view model with current filter state
+                var filterModel = new JobSearchFilterViewModel
+                {
+                    SearchQuery = searchQuery,
+                    Category = category,
+                    SalaryMin = salaryMin,
+                    SalaryMax = salaryMax,
+                    PostedWithinDays = postedWithinDays,
+                    SortBy = sortBy,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    AvailableCategories = categories
+                };
+
+                // Pass filter model to view via ViewBag
+                ViewBag.FilterModel = filterModel;
+
+                _logger.LogInformation("Displaying job listings - Page {PageNumber}, Search: {SearchQuery}, Category: {Category}", 
+                    pageNumber, searchQuery, category);
+
+                return View(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving job postings");
+                return View(new PaginatedResult<JobPosting>());
+            }
         }
 
         //[Authorize(Policy = "CanCreateJobPosting")]
@@ -73,16 +133,16 @@ namespace JobSpot.Controllers
                     Description = jobPostingVM.Description,
                     Company = jobPostingVM.Company,
                     Location = jobPostingVM.Location,
+                    Category = jobPostingVM.Category,
+                    SalaryMin = jobPostingVM.SalaryMin,
+                    SalaryMax = jobPostingVM.SalaryMax,
+                    SalaryCurrency = jobPostingVM.SalaryCurrency,
                     UserId = _userManager.GetUserId(User)
                 };
 
                 await _jobPostingRepository.AddAsync(jobPosting);
                 _logger.LogInformation("Job posting created: {JobTitle} by User: {UserId}", jobPosting.Title, jobPosting.UserId);
                 return RedirectToAction(nameof(Index));
-                //    jobPosting.IsApproved = true; // Auto-approve for simplicity
-                //    var user = await _userManager.GetUserAsync(User);
-                //    jobPosting.UserId = user?.Id ?? "Anonymous"; // Assign UserId or "Anonymous"
-                //    await _jobPostingRepository.AddAsync(jobPosting);
             } 
                 catch(Exception ex)
                 { 
@@ -116,8 +176,11 @@ namespace JobSpot.Controllers
                 Title = jobPosting.Title,
                 Description = jobPosting.Description,
                 Company = jobPosting.Company,
-                Location = jobPosting.Location
-                // Add other properties as needed
+                Location = jobPosting.Location,
+                Category = jobPosting.Category,
+                SalaryMin = jobPosting.SalaryMin,
+                SalaryMax = jobPosting.SalaryMax,
+                SalaryCurrency = jobPosting.SalaryCurrency
             };
 
             return View(viewModel);
@@ -145,18 +208,22 @@ namespace JobSpot.Controllers
                 return Forbid();
             }
 
-            // Update fields
+            // Update all fields including new ones
             jobPosting.Title = jobPostingViewModel.Title;
             jobPosting.Description = jobPostingViewModel.Description;
             jobPosting.Company = jobPostingViewModel.Company;
             jobPosting.Location = jobPostingViewModel.Location;
-            // Add other fields as needed
+            jobPosting.Category = jobPostingViewModel.Category;
+            jobPosting.SalaryMin = jobPostingViewModel.SalaryMin;
+            jobPosting.SalaryMax = jobPostingViewModel.SalaryMax;
+            jobPosting.SalaryCurrency = jobPostingViewModel.SalaryCurrency;
 
             await _jobPostingRepository.UpdateAsync(jobPosting);
             _logger.LogInformation("Job posting updated: {JobTitle} by User: {UserId}", jobPosting.Title, jobPosting.UserId);
 
             return RedirectToAction(nameof(Index));
         }
+
 
 
         [HttpDelete]

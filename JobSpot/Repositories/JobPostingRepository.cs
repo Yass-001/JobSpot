@@ -42,6 +42,7 @@ namespace JobSpot.Repositories
 
         public async Task<IEnumerable<JobPosting>> GetAllAsync()
         {
+            //return await _context.JobPostings.Where(jp => jp.IsApproved).ToListAsync();
             return await _context.JobPostings.ToListAsync();
         }
 

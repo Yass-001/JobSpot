@@ -1,8 +1,10 @@
-﻿@model IEnumerable<JobSpot.Models.JobPosting>
+﻿@model JobSpot.ViewModels.PaginatedResult<JobSpot.Models.JobPosting>
 @using JobSpot.Constants
+@using JobSpot.ViewModels
 
 @{
     ViewData["Title"] = "Job Postings";
+    var filterModel = (JobSearchFilterViewModel)ViewBag.FilterModel;
 }
 
 <style>
@@ -19,39 +21,359 @@
     .btn.font-thick-bold {
         font-size: 1.05rem;
     }
+    .filter-section {
+        background: linear-gradient(135deg, #f8f9fc 0%, #e9ecef 100%);
+        padding: 2rem;
+        border-radius: 0.75rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        border-left: 4px solid #4e73df;
+    }
+    .filter-section h3 {
+        color: #343a40;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+    .salary-display {
+        font-size: 0.95rem;
+        color: #36b9cc;
+        font-weight: 600;
+    }
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 2.5rem;
+        margin-bottom: 2rem;
+    }
+    .result-info {
+        font-size: 0.95rem;
+        color: #5a5c69;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: #e7f3ff;
+        border-left: 3px solid #4e73df;
+        border-radius: 0.25rem;
+    }
+    .category-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.35rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+    .job-card {
+        transition: all 0.3s ease;
+        border: 1px solid #e3e6f0;
+    }
+    .job-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 2rem rgba(58, 59, 69, 0.25) !important;
+    }
 </style>
 
-<h1 class="text-center my-5 font-thick-bold" style="font-size: 2.5rem; color: #343a40; letter-spacing: 2px;">All Jobs</h1>
+<h1 class="text-center my-5 font-thick-bold" style="font-size: 2.5rem; color: #343a40; letter-spacing: 2px;">Job Opportunities</h1>
 
 <div class="container">
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-        @foreach (var jobPosting in Model)
-        {
-            <div class="col">
-                <div class="card h-100 shadow-sm" id="job-posting-@jobPosting.Id" style="border-radius: 1rem; border: 1px solid #e3e6f0;">
-                    <div class="card-body" style="background: #f8f9fc;">
-                        <h5 class="card-title text-primary" style="font-weight: 600;">@jobPosting.Title</h5>
-                        <p class="card-text" style="color: #5a5c69;">@jobPosting.Description</p>
-                        <ul class="list-unstyled mb-3" style="font-size: 0.95rem;">
-                            <li><i class="bi bi-building"></i> <strong>Company:</strong> <span style="color: #4e73df;">@jobPosting.Company</span></li>
-                            <li><i class="bi bi-geo-alt"></i> <strong>Location:</strong> <span style="color: #36b9cc;">@jobPosting.Location</span></li>
-                            <li><i class="bi bi-calendar"></i> <strong>Posted:</strong> <span style="color: #858796;">@jobPosting.PostedDate.ToShortDateString()</span></li>
-                        </ul>
-                        @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Employer))
-                        {
-                            <a asp-action="Edit" asp-route-id="@jobPosting.Id" class="btn btn-sm btn-primary me-2" style="border-radius: 0.5rem;">
-                                <i class="bi bi-pencil"></i> Edit
-                            </a>
-                            <button onclick="deleteJobPosting('@jobPosting.Id')"
-                                    class="btn btn-sm btn-danger" style="border-radius: 0.5rem;">
-                                <i class="bi bi-trash"></i> Delete
-                            </button>
-                        }
+    <!-- Search and Filter Section -->
+    <div class="filter-section">
+        <h3><i class="bi bi-search"></i> Search & Filter Jobs</h3>
+        <form method="get" asp-action="Index" class="row g-3">
+            <!-- Search Box -->
+            <div class="col-12">
+                <label for="searchQuery" class="form-label"><strong>Search Keyword</strong></label>
+                <input type="text" class="form-control form-control-lg" id="searchQuery" name="searchQuery" 
+                       placeholder="Search by title, company, location, or skills..." 
+                       value="@filterModel?.SearchQuery">
+            </div>
+
+            <div class="col-12">
+                <div class="row g-3">
+                    <!-- Category Filter -->
+                    <div class="col-md-3">
+                        <label for="category" class="form-label"><strong>Category</strong></label>
+                        <select class="form-select" id="category" name="category">
+                            <option value="">All Categories</option>
+                            @if (filterModel?.AvailableCategories != null)
+                            {
+                                @foreach (var cat in filterModel.AvailableCategories)
+                                {
+                                    <option value="@cat" selected="@(filterModel.Category == cat)">@cat</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Salary Min -->
+                    <div class="col-md-2">
+                        <label for="salaryMin" class="form-label"><strong>Min Salary</strong></label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="salaryMin" name="salaryMin" 
+                                   placeholder="0" value="@filterModel?.SalaryMin?.ToString("F0")">
+                        </div>
+                    </div>
+
+                    <!-- Salary Max -->
+                    <div class="col-md-2">
+                        <label for="salaryMax" class="form-label"><strong>Max Salary</strong></label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" class="form-control" id="salaryMax" name="salaryMax" 
+                                   placeholder="Any" value="@filterModel?.SalaryMax?.ToString("F0")">
+                        </div>
+                    </div>
+
+                    <!-- Posted Within Days -->
+                    <div class="col-md-2">
+                        <label for="postedWithinDays" class="form-label"><strong>Posted (days ago)</strong></label>
+                        <input type="number" class="form-control" id="postedWithinDays" name="postedWithinDays" 
+                               placeholder="Any" min="1" value="@filterModel?.PostedWithinDays">
+                    </div>
+
+                    <!-- Sort By -->
+                    <div class="col-md-3">
+                        <label for="sortBy" class="form-label"><strong>Sort By</strong></label>
+                        <select class="form-select" id="sortBy" name="sortBy">
+                            @foreach (var option in Enum.GetValues<JobSortOption>())
+                            {
+                                <option value="@((int)option)" selected="@(filterModel?.SortBy == option)">
+                                    @option.ToString()
+                                </option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Page Size -->
+                    <div class="col-md-2">
+                        <label for="pageSize" class="form-label"><strong>Per Page</strong></label>
+                        <select class="form-select" id="pageSize" name="pageSize">
+                            <option value="5" selected="@(filterModel?.PageSize == 5)">5</option>
+                            <option value="10" selected="@(filterModel?.PageSize == 10)">10</option>
+                            <option value="20" selected="@(filterModel?.PageSize == 20)">20</option>
+                            <option value="50" selected="@(filterModel?.PageSize == 50)">50</option>
+                        </select>
                     </div>
                 </div>
             </div>
-        }
+
+            <!-- Buttons -->
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-lg">
+                    <i class="bi bi-search"></i> Search & Filter
+                </button>
+                <a href="@Url.Action("Index")" class="btn btn-secondary btn-lg">
+                    <i class="bi bi-arrow-counterclockwise"></i> Clear All Filters
+                </a>
+            </div>
+        </form>
     </div>
+
+    <!-- Results Info -->
+    @if (Model.TotalCount > 0)
+    {
+        <div class="result-info">
+            <strong>Found @Model.TotalCount job(s)</strong>
+            @if (!string.IsNullOrEmpty(filterModel?.SearchQuery))
+            {
+                <span>matching "<strong>@filterModel.SearchQuery</strong>"</span>
+            }
+            @if (!string.IsNullOrEmpty(filterModel?.Category))
+            {
+                <span>in <strong>@filterModel.Category</strong></span>
+            }
+            - Page <strong>@Model.PageNumber</strong> of <strong>@Model.TotalPages</strong>
+        </div>
+    }
+
+    <!-- Job Listings -->
+    @if (Model.Items.Any())
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var jobPosting in Model.Items)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm job-card" id="job-posting-@jobPosting.Id" style="border-radius: 1rem;">
+                        <div class="card-body" style="background: #f8f9fc;">
+                            <h5 class="card-title text-primary" style="font-weight: 600; margin-bottom: 0.5rem;">@jobPosting.Title</h5>
+
+                            @if (!string.IsNullOrEmpty(jobPosting.Category))
+                            {
+                                <div class="category-badge">@jobPosting.Category</div>
+                            }
+
+                            <p class="card-text" style="color: #5a5c69; font-size: 0.9rem; margin-bottom: 1rem;">
+                                @{
+                                    var description = jobPosting.Description;
+                                    if (description.Length > 120)
+                                    {
+                                        description = description.Substring(0, 120) + "...";
+                                    }
+                                }
+                                @description
+                            </p>
+
+                            <ul class="list-unstyled mb-3" style="font-size: 0.9rem;">
+                                <li style="margin-bottom: 0.5rem;"><i class="bi bi-building"></i> <strong>Company:</strong> <span style="color: #4e73df;">@jobPosting.Company</span></li>
+                                <li style="margin-bottom: 0.5rem;"><i class="bi bi-geo-alt"></i> <strong>Location:</strong> <span style="color: #36b9cc;">@jobPosting.Location</span></li>
+
+                                @if (jobPosting.SalaryMin.HasValue || jobPosting.SalaryMax.HasValue)
+                                {
+                                    <li style="margin-bottom: 0.5rem;"><i class="bi bi-cash-coin"></i> <strong>Salary:</strong> 
+                                        <span class="salary-display">
+                                            @if (jobPosting.SalaryMin.HasValue && jobPosting.SalaryMax.HasValue)
+                                            {
+                                                @($"{jobPosting.SalaryMin:C0} - {jobPosting.SalaryMax:C0}")
+                                            }
+                                            else if (jobPosting.SalaryMin.HasValue)
+                                            {
+                                                @($"From {jobPosting.SalaryMin:C0}")
+                                            }
+                                            else if (jobPosting.SalaryMax.HasValue)
+                                            {
+                                                @($"Up to {jobPosting.SalaryMax:C0}")
+                                            }
+                                        </span>
+                                    </li>
+                                }
+
+                                <li><i class="bi bi-calendar"></i> <strong>Posted:</strong> <span style="color: #858796;">@jobPosting.PostedDate.ToString("MMM dd, yyyy")</span></li>
+                            </ul>
+
+                            <div class="mt-3 pt-3 border-top">
+                                @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Employer))
+                                {
+                                    <a asp-action="Edit" asp-route-id="@jobPosting.Id" class="btn btn-sm btn-primary me-2" style="border-radius: 0.5rem;">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                    <button onclick="deleteJobPosting('@jobPosting.Id')"
+                                            class="btn btn-sm btn-danger" style="border-radius: 0.5rem;">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Pagination -->
+        @if (Model.TotalPages > 1)
+        {
+            <nav aria-label="Page navigation" class="pagination-container">
+                <ul class="pagination">
+                    <!-- Previous Page -->
+                    <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                        <a class="page-link" asp-action="Index" 
+                           asp-route-searchQuery="@filterModel?.SearchQuery"
+                           asp-route-category="@filterModel?.Category"
+                           asp-route-salaryMin="@filterModel?.SalaryMin"
+                           asp-route-salaryMax="@filterModel?.SalaryMax"
+                           asp-route-postedWithinDays="@filterModel?.PostedWithinDays"
+                           asp-route-sortBy="@filterModel?.SortBy"
+                           asp-route-pageSize="@filterModel?.PageSize"
+                           asp-route-pageNumber="@(Model.PageNumber - 1)">
+                            <i class="bi bi-chevron-left"></i> Previous
+                        </a>
+                    </li>
+
+                    <!-- Page Numbers -->
+                    @{
+                        int startPage = Math.Max(1, Model.PageNumber - 2);
+                        int endPage = Math.Min(Model.TotalPages, Model.PageNumber + 2);
+
+                        if (startPage > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-action="Index" 
+                                   asp-route-searchQuery="@filterModel?.SearchQuery"
+                                   asp-route-category="@filterModel?.Category"
+                                   asp-route-salaryMin="@filterModel?.SalaryMin"
+                                   asp-route-salaryMax="@filterModel?.SalaryMax"
+                                   asp-route-postedWithinDays="@filterModel?.PostedWithinDays"
+                                   asp-route-sortBy="@filterModel?.SortBy"
+                                   asp-route-pageSize="@filterModel?.PageSize"
+                                   asp-route-pageNumber="1">
+                                    1
+                                </a>
+                            </li>
+                            if (startPage > 2)
+                            {
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            }
+                        }
+
+                        for (int i = startPage; i <= endPage; i++)
+                        {
+                            <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                <a class="page-link" asp-action="Index" 
+                                   asp-route-searchQuery="@filterModel?.SearchQuery"
+                                   asp-route-category="@filterModel?.Category"
+                                   asp-route-salaryMin="@filterModel?.SalaryMin"
+                                   asp-route-salaryMax="@filterModel?.SalaryMax"
+                                   asp-route-postedWithinDays="@filterModel?.PostedWithinDays"
+                                   asp-route-sortBy="@filterModel?.SortBy"
+                                   asp-route-pageSize="@filterModel?.PageSize"
+                                   asp-route-pageNumber="@i">
+                                    @i
+                                </a>
+                            </li>
+                        }
+
+                        if (endPage < Model.TotalPages)
+                        {
+                            if (endPage < Model.TotalPages - 1)
+                            {
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            }
+                            <li class="page-item">
+                                <a class="page-link" asp-action="Index" 
+                                   asp-route-searchQuery="@filterModel?.SearchQuery"
+                                   asp-route-category="@filterModel?.Category"
+                                   asp-route-salaryMin="@filterModel?.SalaryMin"
+                                   asp-route-salaryMax="@filterModel?.SalaryMax"
+                                   asp-route-postedWithinDays="@filterModel?.PostedWithinDays"
+                                   asp-route-sortBy="@filterModel?.SortBy"
+                                   asp-route-pageSize="@filterModel?.PageSize"
+                                   asp-route-pageNumber="@Model.TotalPages">
+                                    @Model.TotalPages
+                                </a>
+                            </li>
+                        }
+                    }
+
+                    <!-- Next Page -->
+                    <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                        <a class="page-link" asp-action="Index" 
+                           asp-route-searchQuery="@filterModel?.SearchQuery"
+                           asp-route-category="@filterModel?.Category"
+                           asp-route-salaryMin="@filterModel?.SalaryMin"
+                           asp-route-salaryMax="@filterModel?.SalaryMax"
+                           asp-route-postedWithinDays="@filterModel?.PostedWithinDays"
+                           asp-route-sortBy="@filterModel?.SortBy"
+                           asp-route-pageSize="@filterModel?.PageSize"
+                           asp-route-pageNumber="@(Model.PageNumber + 1)">
+                            Next <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    }
+    else
+    {
+        <div class="alert alert-info text-center" role="alert" style="margin-top: 3rem;">
+            <h4 class="alert-heading"><i class="bi bi-info-circle"></i> No Jobs Found</h4>
+            <p>We couldn't find any job postings matching your search criteria. Try adjusting your filters or clearing them to see all available opportunities.</p>
+            <hr>
+            <a href="@Url.Action("Index")" class="btn btn-sm btn-primary">
+                <i class="bi bi-arrow-counterclockwise"></i> Clear All Filters
+            </a>
+        </div>
+    }
 </div>
 
 @section Scripts {
@@ -68,12 +390,17 @@
                     url: '@Url.Action("Delete", "JobPostings")/' + id,
                     type: "DELETE",
                     success: function (result) {
-                        $("#job-posting-" + id).remove(); // Remove the job posting from the DOM
-                        alert("Job posting deleted successfully.");
-                        location.reload(); // Reload the page to reflect changes
+                        $("#job-posting-" + id).fadeOut(300, function() {
+                            $(this).remove();
+                        });
+
+                        // Show success toast or reload
+                        setTimeout(function() {
+                            location.reload();
+                        }, 500);
                     },
                     error: function (err) {
-                        alert("Error deleting job posting.");
+                        alert("Error deleting job posting. Please try again.");
                     }
                 });
             }
