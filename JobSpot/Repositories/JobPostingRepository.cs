@@ -42,8 +42,18 @@ namespace JobSpot.Repositories
 
         public async Task<IEnumerable<JobPosting>> GetAllAsync()
         {
-            //return await _context.JobPostings.Where(jp => jp.IsApproved).ToListAsync();
-            return await _context.JobPostings.ToListAsync();
+            try
+            {
+                return await _context.JobPostings.ToListAsync(); //    return await _context.JobPostings.AsNoTracking().ToListAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (ObjectDisposedException ex)
+            {
+                throw new InvalidOperationException("DbContext has been disposed. Ensure the request scope is still active.", ex);
+            }
         }
 
         public async Task<JobPosting> GetByIdAsync(Guid id)
