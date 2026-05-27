@@ -148,6 +148,15 @@ namespace JobSpot.Repositories
                 PageSize = pageSize
             };
         }
+
+        public async Task<IEnumerable<string>> GetCategoriesAsync()
+        {
+            return await _context.JobPostings
+                .Select(jp => jp.Category)
+                .Distinct()
+                .OrderBy(c => c)
+                .ToListAsync();
+        }
     }
 }
 

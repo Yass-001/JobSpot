@@ -94,7 +94,7 @@ namespace JobSpot.Controllers
                     SortBy = sortBy,
                     PageNumber = pageNumber,
                     PageSize = pageSize,
-                    AvailableCategories = categories
+                    AvailableCategories = (List<string>)categories
                 };
 
                 // Pass filter model to view via ViewBag
