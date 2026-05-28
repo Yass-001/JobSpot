@@ -13,14 +13,17 @@
         font-weight: 900 !important;
         letter-spacing: 1px;
     }
+
     .card-title.font-thick-bold {
         font-size: 1.35rem;
     }
+
     .card-text.font-thick-bold,
     .list-unstyled.font-thick-bold li,
     .btn.font-thick-bold {
         font-size: 1.05rem;
     }
+
     .filter-section {
         background: linear-gradient(135deg, #f8f9fc 0%, #e9ecef 100%);
         padding: 2rem;
@@ -29,22 +32,26 @@
         box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
         border-left: 4px solid #4e73df;
     }
-    .filter-section h3 {
-        color: #343a40;
-        margin-bottom: 1.5rem;
-        font-weight: 600;
-    }
+
+        .filter-section h3 {
+            color: #343a40;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
     .salary-display {
         font-size: 0.95rem;
         color: #36b9cc;
         font-weight: 600;
     }
+
     .pagination-container {
         display: flex;
         justify-content: center;
         margin-top: 2.5rem;
         margin-bottom: 2rem;
     }
+
     .result-info {
         font-size: 0.95rem;
         color: #5a5c69;
@@ -54,6 +61,7 @@
         border-left: 3px solid #4e73df;
         border-radius: 0.25rem;
     }
+
     .category-badge {
         display: inline-block;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -64,112 +72,117 @@
         font-weight: 500;
         margin-bottom: 0.5rem;
     }
+
     .job-card {
         transition: all 0.3s ease;
         border: 1px solid #e3e6f0;
     }
-    .job-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0.5rem 2rem rgba(58, 59, 69, 0.25) !important;
-    }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 2rem rgba(58, 59, 69, 0.25) !important;
+        }
 </style>
 
 <h1 class="text-center my-5 font-thick-bold" style="font-size: 2.5rem; color: #343a40; letter-spacing: 2px;">Job Opportunities</h1>
 
 <div class="container">
     <!-- Search and Filter Section -->
-    <div class="filter-section">
-        <h3><i class="bi bi-search"></i> Search & Filter Jobs</h3>
-        <form method="get" asp-action="Index" class="row g-3">
-            <!-- Search Box -->
-            <div class="col-12">
-                <label for="searchQuery" class="form-label"><strong>Search Keyword</strong></label>
-                <input type="text" class="form-control form-control-lg" id="searchQuery" name="searchQuery" 
-                       placeholder="Search by title, company, location, or skills..." 
-                       value="@filterModel?.SearchQuery">
-            </div>
+    @if (!User.IsInRole(UserRoles.Employer))
+    {
+        <div class="filter-section">
+            <h3><i class="bi bi-search"></i> Search & Filter Jobs</h3>
+            <form method="get" asp-action="Index" class="row g-3">
+                <!-- Search Box -->
+                <div class="col-12">
+                    <label for="searchQuery" class="form-label"><strong>Search Keyword</strong></label>
+                    <input type="text" class="form-control form-control-lg" id="searchQuery" name="searchQuery"
+                           placeholder="Search by title, company, location, or skills..."
+                           value="@filterModel?.SearchQuery">
+                </div>
 
-            <div class="col-12">
-                <div class="row g-3">
-                    <!-- Category Filter -->
-                    <div class="col-md-3">
-                        <label for="category" class="form-label"><strong>Category</strong></label>
-                        <select class="form-select" id="category" name="category">
-                            <option value="">All Categories</option>
-                            @if (filterModel?.AvailableCategories != null)
-                            {
-                                @foreach (var cat in filterModel.AvailableCategories)
+                <div class="col-12">
+                    <div class="row g-3">
+                        <!-- Category Filter -->
+                        <div class="col-md-3">
+                            <label for="category" class="form-label"><strong>Category</strong></label>
+                            <select class="form-select" id="category" name="category">
+                                <option value="">All Categories</option>
+                                @if (filterModel?.AvailableCategories != null)
                                 {
-                                    <option value="@cat" selected="@(filterModel.Category == cat)">@cat</option>
+                                    @foreach (var cat in filterModel.AvailableCategories)
+                                    {
+                                        <option value="@cat" selected="@(filterModel.Category == cat)">@cat</option>
+                                    }
                                 }
-                            }
-                        </select>
-                    </div>
-
-                    <!-- Salary Min -->
-                    <div class="col-md-2">
-                        <label for="salaryMin" class="form-label"><strong>Min Salary</strong></label>
-                        <div class="input-group">
-                            <span class="input-group-text">$</span>
-                            <input type="number" class="form-control" id="salaryMin" name="salaryMin" 
-                                   placeholder="0" value="@filterModel?.SalaryMin?.ToString("F0")">
+                            </select>
                         </div>
-                    </div>
 
-                    <!-- Salary Max -->
-                    <div class="col-md-2">
-                        <label for="salaryMax" class="form-label"><strong>Max Salary</strong></label>
-                        <div class="input-group">
-                            <span class="input-group-text">$</span>
-                            <input type="number" class="form-control" id="salaryMax" name="salaryMax" 
-                                   placeholder="Any" value="@filterModel?.SalaryMax?.ToString("F0")">
+                        <!-- Salary Min -->
+                        <div class="col-md-2">
+                            <label for="salaryMin" class="form-label"><strong>Min Salary</strong></label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="salaryMin" name="salaryMin"
+                                       placeholder="0" value="@filterModel?.SalaryMin?.ToString("F0")">
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Posted Within Days -->
-                    <div class="col-md-2">
-                        <label for="postedWithinDays" class="form-label"><strong>Posted (days ago)</strong></label>
-                        <input type="number" class="form-control" id="postedWithinDays" name="postedWithinDays" 
-                               placeholder="Any" min="1" value="@filterModel?.PostedWithinDays">
-                    </div>
+                        <!-- Salary Max -->
+                        <div class="col-md-2">
+                            <label for="salaryMax" class="form-label"><strong>Max Salary</strong></label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="salaryMax" name="salaryMax"
+                                       placeholder="Any" value="@filterModel?.SalaryMax?.ToString("F0")">
+                            </div>
+                        </div>
 
-                    <!-- Sort By -->
-                    <div class="col-md-3">
-                        <label for="sortBy" class="form-label"><strong>Sort By</strong></label>
-                        <select class="form-select" id="sortBy" name="sortBy">
-                            @foreach (var option in Enum.GetValues<JobSortOption>())
-                            {
-                                <option value="@((int)option)" selected="@(filterModel?.SortBy == option)">
-                                    @option.ToString()
-                                </option>
-                            }
-                        </select>
-                    </div>
+                        <!-- Posted Within Days -->
+                        <div class="col-md-2">
+                            <label for="postedWithinDays" class="form-label"><strong>Posted (days ago)</strong></label>
+                            <input type="number" class="form-control" id="postedWithinDays" name="postedWithinDays"
+                                   placeholder="Any" min="1" value="@filterModel?.PostedWithinDays">
+                        </div>
 
-                    <!-- Page Size -->
-                    <div class="col-md-2">
-                        <label for="pageSize" class="form-label"><strong>Per Page</strong></label>
-                        <select class="form-select" id="pageSize" name="pageSize">
-                            <option value="5" selected="@(filterModel?.PageSize == 5)">5</option>
-                            <option value="10" selected="@(filterModel?.PageSize == 10)">10</option>
-                            <option value="20" selected="@(filterModel?.PageSize == 20)">20</option>
-                            <option value="50" selected="@(filterModel?.PageSize == 50)">50</option>
-                        </select>
+                        <!-- Sort By -->
+                        <div class="col-md-3">
+                            <label for="sortBy" class="form-label"><strong>Sort By</strong></label>
+                            <select class="form-select" id="sortBy" name="sortBy">
+                                @foreach (var option in Enum.GetValues<JobSortOption>())
+                                {
+                                    <option value="@((int)option)" selected="@(filterModel?.SortBy == option)">
+                                        @option.ToString()
+                                    </option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Page Size -->
+                        <div class="col-md-2">
+                            <label for="pageSize" class="form-label"><strong>Per Page</strong></label>
+                            <select class="form-select" id="pageSize" name="pageSize">
+                                <option value="5" selected="@(filterModel?.PageSize == 5)">5</option>
+                                <option value="10" selected="@(filterModel?.PageSize == 10)">10</option>
+                                <option value="20" selected="@(filterModel?.PageSize == 20)">20</option>
+                                <option value="50" selected="@(filterModel?.PageSize == 50)">50</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Buttons -->
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary btn-lg">
-                    <i class="bi bi-search"></i> Search & Filter
-                </button>
-                <a href="@Url.Action("Index")" class="btn btn-secondary btn-lg">
-                    <i class="bi bi-arrow-counterclockwise"></i> Clear All Filters
-                </a>
-            </div>
-        </form>
-    </div>
+                <!-- Buttons -->
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="bi bi-search"></i> Search & Filter
+                    </button>
+                    <a href="@Url.Action("Index")" class="btn btn-secondary btn-lg">
+                        <i class="bi bi-arrow-counterclockwise"></i> Clear All Filters
+                    </a>
+                </div>
+            </form>
+        </div>
+    }
 
     <!-- Results Info -->
     @if (Model.TotalCount > 0)
@@ -221,7 +234,8 @@
 
                                 @if (jobPosting.SalaryMin.HasValue || jobPosting.SalaryMax.HasValue)
                                 {
-                                    <li style="margin-bottom: 0.5rem;"><i class="bi bi-cash-coin"></i> <strong>Salary:</strong> 
+                                    <li style="margin-bottom: 0.5rem;">
+                                        <i class="bi bi-cash-coin"></i> <strong>Salary:</strong>
                                         <span class="salary-display">
                                             @if (jobPosting.SalaryMin.HasValue && jobPosting.SalaryMax.HasValue)
                                             {
@@ -267,7 +281,7 @@
                 <ul class="pagination">
                     <!-- Previous Page -->
                     <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
-                        <a class="page-link" asp-action="Index" 
+                        <a class="page-link" asp-action="Index"
                            asp-route-searchQuery="@filterModel?.SearchQuery"
                            asp-route-category="@filterModel?.Category"
                            asp-route-salaryMin="@filterModel?.SalaryMin"
@@ -288,7 +302,7 @@
                         if (startPage > 1)
                         {
                             <li class="page-item">
-                                <a class="page-link" asp-action="Index" 
+                                <a class="page-link" asp-action="Index"
                                    asp-route-searchQuery="@filterModel?.SearchQuery"
                                    asp-route-category="@filterModel?.Category"
                                    asp-route-salaryMin="@filterModel?.SalaryMin"
@@ -309,7 +323,7 @@
                         for (int i = startPage; i <= endPage; i++)
                         {
                             <li class="page-item @(i == Model.PageNumber ? "active" : "")">
-                                <a class="page-link" asp-action="Index" 
+                                <a class="page-link" asp-action="Index"
                                    asp-route-searchQuery="@filterModel?.SearchQuery"
                                    asp-route-category="@filterModel?.Category"
                                    asp-route-salaryMin="@filterModel?.SalaryMin"
@@ -330,7 +344,7 @@
                                 <li class="page-item disabled"><span class="page-link">...</span></li>
                             }
                             <li class="page-item">
-                                <a class="page-link" asp-action="Index" 
+                                <a class="page-link" asp-action="Index"
                                    asp-route-searchQuery="@filterModel?.SearchQuery"
                                    asp-route-category="@filterModel?.Category"
                                    asp-route-salaryMin="@filterModel?.SalaryMin"
@@ -347,7 +361,7 @@
 
                     <!-- Next Page -->
                     <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
-                        <a class="page-link" asp-action="Index" 
+                        <a class="page-link" asp-action="Index"
                            asp-route-searchQuery="@filterModel?.SearchQuery"
                            asp-route-category="@filterModel?.Category"
                            asp-route-salaryMin="@filterModel?.SalaryMin"
