@@ -47,7 +47,7 @@ namespace JobSpot.Models
         /// Currency code (e.g., "USD", "EUR", "GBP")
         /// </summary>
         [StringLength(50)]
-        public string SalaryCurrency { get; set; } = "USD";
+        public string SalaryCurrency { get; set; } = "EUR";
 
         /// <summary>
         /// Date and time when this job was posted

@@ -30,6 +30,16 @@
         <input type="text" asp-for="Category" class="form-control" />
         <span asp-validation-for="Category" class="text-danger"></span>
     </div>
+    <div class="mb-3">
+        <label asp-for="SalaryMin" class="form-label"></label>
+        <input type="text" asp-for="SalaryMin" class="form-control" />
+        <span asp-validation-for="SalaryMin" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="SalaryMax" class="form-label"></label>
+        <input type="text" asp-for="SalaryMax" class="form-control" />
+        <span asp-validation-for="SalaryMax" class="text-danger"></span>
+    </div>
 
     <button type="submit" class="btn btn-primary">Save</button>
 

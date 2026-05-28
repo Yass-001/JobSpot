@@ -82,6 +82,7 @@ namespace JobSpot.ViewModels
 
     /// <summary>
     /// Enum for sorting options
+    /// Take it to folder "Enums" if it grows too big, but for now it's small and closely related to the search/filtering, so it can stay here ?!
     /// </summary>
     public enum JobSortOption
     {
