@@ -42,7 +42,7 @@ namespace JobSpot.Controllers
             int? postedWithinDays = null,
             JobSortOption sortBy = JobSortOption.Newest,
             int pageNumber = 1,
-            int pageSize = 10)
+            int pageSize = 9)
         {
             try
             {
