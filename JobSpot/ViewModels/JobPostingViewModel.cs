@@ -47,6 +47,6 @@ namespace JobSpot.ViewModels
 
         [StringLength(50)]
         [Display(Name = "Salary Currency")]
-        public string SalaryCurrency { get; set; } = "USD";
+        public string SalaryCurrency { get; set; } = "EUR";
     }
 }
