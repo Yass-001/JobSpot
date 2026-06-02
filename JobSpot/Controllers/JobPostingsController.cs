@@ -22,7 +22,11 @@ namespace JobSpot.Controllers
         private readonly IUserManager _userManager;
         private ILogger<JobPostingsController> _logger;
 
-        public JobPostingsController(IRepository<JobPosting> repository, JobPostingRepository jobPostingRepositoryConcrete, IUserManager userManager, ILogger<JobPostingsController> logger)
+        public JobPostingsController(
+            IRepository<JobPosting> repository, 
+            JobPostingRepository jobPostingRepositoryConcrete, 
+            IUserManager userManager, 
+            ILogger<JobPostingsController> logger)
         {
             _jobPostingRepository = repository;
             _jobPostingRepositoryConcrete = jobPostingRepositoryConcrete;
