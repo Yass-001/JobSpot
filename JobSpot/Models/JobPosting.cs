@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 
 namespace JobSpot.Models
 {
@@ -65,5 +66,10 @@ namespace JobSpot.Models
 
         [ForeignKey(nameof(UserId))]
         public IdentityUser User { get; set; } // Navigation property to the User entity
+
+        //public string ToString(decimal salary, CultureInfo culture)
+        //{
+        //    return salary.ToString("C:0", culture);
+        //}
     }
 }

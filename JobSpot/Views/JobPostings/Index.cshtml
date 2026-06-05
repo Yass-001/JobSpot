@@ -9,7 +9,8 @@
 }
 
 @{
-    CultureInfo.CurrentCulture = new CultureInfo("en-US");
+    CultureInfo.CurrentCulture = new CultureInfo("de-DE");
+    // var euroCulture = new CultureInfo("de-DE");
 }
 
 <style>
@@ -236,10 +237,6 @@
                             <ul class="list-unstyled mb-3" style="font-size: 0.9rem;">
                                 <li style="margin-bottom: 0.5rem;"><i class="bi bi-building"></i> <strong>Company:</strong> <span style="color: #4e73df;">@jobPosting.Company</span></li>
                                 <li style="margin-bottom: 0.5rem;"><i class="bi bi-geo-alt"></i> <strong>Location:</strong> <span style="color: #36b9cc;">@jobPosting.Location</span></li>
-                                @*CultureInfo.CurrentCulture
-                                CultureInfo.CreateSpecificCulture("da-DK")
-                                CultureInfo.InvariantCulture 
-                                get here throw DI or service *@
                                 @if (jobPosting.SalaryMin.HasValue || jobPosting.SalaryMax.HasValue)
                                 {
                                     <li style="margin-bottom: 0.5rem;">
