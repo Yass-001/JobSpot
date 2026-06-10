@@ -9,8 +9,8 @@
 }
 
 @{
-    CultureInfo.CurrentCulture = new CultureInfo("de-DE");
-    // var euroCulture = new CultureInfo("de-DE");
+    // CultureInfo.CurrentCulture = new CultureInfo("de-DE");
+    var euroCulture = new CultureInfo("de-DE");
 }
 
 <style>
@@ -244,15 +244,15 @@
                                         <span class="salary-display">
                                             @if (jobPosting.SalaryMin.HasValue && jobPosting.SalaryMax.HasValue)
                                             {
-                                                @($"{jobPosting.SalaryMin:C0} - {jobPosting.SalaryMax:C0}")
+                                                @String.Format(euroCulture, "{0:C0} - {1:C0}", jobPosting.SalaryMin, jobPosting.SalaryMax)
                                             }
                                             else if (jobPosting.SalaryMin.HasValue)
                                             {
-                                                @($"From {jobPosting.SalaryMin:C0}")
+                                                @($"From {String.Format(euroCulture, "{0:C0}", jobPosting.SalaryMin)}")
                                             }
                                             else if (jobPosting.SalaryMax.HasValue)
                                             {
-                                                @($"Up to {jobPosting.SalaryMax:C0}")
+                                                @($"Up to {String.Format(euroCulture, "{0:C0}", jobPosting.SalaryMax)}")
                                             }
                                         </span>
                                     </li>
