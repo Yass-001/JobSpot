@@ -118,7 +118,10 @@
                                 {
                                     @foreach (var cat in filterModel.AvailableCategories)
                                     {
-                                        <option value="@cat" selected="@(filterModel.Category == cat)">@cat</option>
+                                        if (!string.IsNullOrEmpty(cat))
+                                        {
+                                            <option value="@cat" selected="@(filterModel.Category == cat)">@cat</option>
+                                        }
                                     }
                                 }
                             </select>

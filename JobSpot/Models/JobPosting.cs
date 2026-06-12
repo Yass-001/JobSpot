@@ -12,25 +12,25 @@ namespace JobSpot.Models
 
         [Required]
         [StringLength(200)]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [Required]
         [StringLength(5000)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required]
         [StringLength(150)]
-        public string Company { get; set; }
+        public string? Company { get; set; }
 
         [Required]
         [StringLength(150)]
-        public string Location { get; set; }
+        public string? Location { get; set; }
 
         /// <summary>
         /// Job category/type (e.g., "IT", "Finance", "Marketing", "Sales", etc.)
         /// </summary>
         [StringLength(100)]
-        public string Category { get; set; }
+        public string? Category { get; set; }
 
         /// <summary>
         /// Minimum salary for this position
@@ -48,7 +48,7 @@ namespace JobSpot.Models
         /// Currency code (e.g., "USD", "EUR", "GBP")
         /// </summary>
         [StringLength(50)]
-        public string SalaryCurrency { get; set; } = "EUR";
+        public string? SalaryCurrency { get; set; } = "EUR";
 
         /// <summary>
         /// Date and time when this job was posted
@@ -62,14 +62,10 @@ namespace JobSpot.Models
         public bool IsApproved { get; set; } = false;
 
         [Required]
-        public string UserId { get; set; } // Foreign key to the User who posted the job
+        public string? UserId { get; set; } // Foreign key to the User who posted the job
 
         [ForeignKey(nameof(UserId))]
-        public IdentityUser User { get; set; } // Navigation property to the User entity
+        public IdentityUser? User { get; set; } // Navigation property to the User entity
 
-        //public string ToString(decimal salary, CultureInfo culture)
-        //{
-        //    return salary.ToString("C:0", culture);
-        //}
     }
 }

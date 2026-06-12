@@ -94,7 +94,9 @@ namespace JobSpot.Repositories
             if (!string.IsNullOrWhiteSpace(searchQuery))
             {
                 query = query.Where(jp => jp.Title.Contains(searchQuery) || 
-                                          jp.Description.Contains(searchQuery));
+                                          jp.Description.Contains(searchQuery) ||
+                                          jp.Company.Contains(searchQuery) ||
+                                          jp.Location.Contains(searchQuery));
             }
 
             // Filter by category

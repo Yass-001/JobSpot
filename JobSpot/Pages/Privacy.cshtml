@@ -4,86 +4,180 @@
     ViewData["Title"] = "Privacy Policy";
 }
 
+<style>
+    .font-thick-bold {
+        font-family: 'Segoe UI', 'Arial Black', Arial, sans-serif;
+        font-weight: 900 !important;
+        letter-spacing: 1px;
+    }
+
+    .page-header {
+        background: linear-gradient(135deg, #f8f9fc 0%, #e9ecef 100%);
+        padding: 2rem;
+        border-radius: 0.75rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        border-left: 4px solid #4e73df;
+    }
+
+    .page-header h1 {
+        font-size: 2.5rem;
+        color: #343a40;
+        letter-spacing: 2px;
+    }
+
+    .page-header .text-muted {
+        font-size: 0.95rem;
+        color: #5a5c69;
+    }
+
+    .nav-back {
+        margin-bottom: 1.5rem;
+    }
+
+    .nav-back a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #4e73df;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .nav-back a:hover {
+        color: #224abe;
+        transform: translateX(-3px);
+    }
+
+    .privacy-card {
+        border: none;
+        border-left: 4px solid #4e73df;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+        transition: all 0.3s ease;
+        margin-bottom: 1.5rem;
+    }
+
+    .privacy-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0.5rem 2rem rgba(58, 59, 69, 0.15);
+    }
+
+    .privacy-card .card-title {
+        color: #4e73df;
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .privacy-card .card-text {
+        color: #5a5c69;
+        line-height: 1.6;
+    }
+
+    .list-group-item {
+        border: none;
+        padding: 0.75rem 1rem;
+        background: transparent;
+        transition: all 0.3s ease;
+    }
+
+    .list-group-item:hover {
+        background-color: #f8f9fc;
+        color: #4e73df;
+        font-weight: 500;
+        transform: translateX(5px);
+    }
+
+    .alert-info {
+        background-color: #e9f5ff;
+        border-color: #4e73df;
+        color: #343a40;
+    }
+
+    .privacy-footer {
+        text-align: center;
+        color: #5a5c69;
+        font-size: 0.95rem;
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 2px solid #e3e6f0;
+    }
+
+    .quick-links-section {
+        background: linear-gradient(135deg, #f8f9fc 0%, #e9ecef 100%);
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1);
+    }
+
+    .quick-links-section h5 {
+        color: #4e73df;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+</style>
+
 <div class="container py-5">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <div class="privacy-header mb-5">
-                <h1 class="text-primary fw-bold mb-2">@ViewData["Title"]</h1>
-                <p class="text-muted small">Last updated: April 15th, 2026</p>
+            <!-- Navigation Back -->
+            <div class="nav-back">
+                <a href="@Url.Action("Index", "JobPostings")">
+                    <i class="bi bi-arrow-left"></i> Back to Job Listings
+                </a>
             </div>
 
-            <div class="mb-3">
-                <h5 class="text-secondary fw-bold mb-3">Quick Links</h5>
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="font-thick-bold">@ViewData["Title"]</h1>
+                <p class="text-muted">Last updated: April 15th, 2026</p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="quick-links-section">
+                <h5><i class="bi bi-link-45deg"></i> Quick Navigation</h5>
                 <nav class="list-group list-group-horizontal-sm">
-                    <a href="#commitment" class="list-group-item list-group-item-action">Commitment</a>
-                    <a href="#contact" class="list-group-item list-group-item-action">Contact</a>
+                    <a href="#commitment" class="list-group-item list-group-item-action">Our Commitment</a>
+                    <a href="#contact" class="list-group-item list-group-item-action">Contact Us</a>
                 </nav>
             </div>
 
-            <div class="card shadow-sm mb-4" id="commitment">
+            <!-- Commitment Section -->
+            <div class="card privacy-card" id="commitment">
                 <div class="card-body">
-                    <h5 class="card-title privacy-card-title text-secondary">Our Commitment</h5>
-                    <p class="card-text text-muted">
+                    <h5 class="card-title">
+                        <i class="bi bi-shield-check"></i> Our Commitment
+                    </h5>
+                    <p class="card-text">
                         We respect your privacy and are committed to protecting it through our compliance with this privacy policy ("Policy"). This Policy describes the types of information we may collect from you or that you may provide ("Personal Information") on the JobSpot website ("Website") and any of its related products and services (collectively, "Services"), and our practices for collecting, using, maintaining, protecting, and disclosing that Personal Information. It also describes the choices available to you regarding our use of your Personal Information and how you can access and update it.
                     </p>
-                    <p class="card-text text-muted">
+                    <p class="card-text">
                         This Policy is a legally binding agreement between you ("User", "you" or "your") and JobSpot ("JobSpot", "we", "us" or "our"). If you are entering into this agreement on behalf of a business or other legal entity, you represent that you have the authority to bind such entity to this agreement, in which case the terms "User", "you" or "your" shall refer to such entity. If you do not have such authority, or if you do not agree with the terms of this agreement, you must not accept this agreement and may not access and use the Services. By accessing and using the Services, you acknowledge that you have read, understood, and agree to be bound by the terms of this Policy.
                     </p>
                 </div>
             </div>
 
-            <div class="card shadow-sm mb-4" id="contact">
+            <!-- Contact Section -->
+            <div class="card privacy-card" id="contact">
                 <div class="card-body">
-                    <h5 class="card-title privacy-card-title text-secondary">   Contacting Us</h5>
-                    <p class="card-text text-muted">
+                    <h5 class="card-title">
+                        <i class="bi bi-envelope"></i> Contacting Us
+                    </h5>
+                    <p class="card-text">
                         If you have any questions regarding the information we may hold about you or if you wish to exercise your rights, we encourage you to contact us:
                     </p>
                     <div class="alert alert-info" role="alert">
-                        <strong>Email:</strong> <a href="mailto:info@jobspot.com">info@jobspot.com</a>
+                        <strong><i class="bi bi-envelope-fill"></i> Email:</strong> <a href="mailto:info@jobspot.com" style="color: #4e73df; font-weight: 500;">info@jobspot.com</a>
                     </div>
                 </div>
             </div>
 
-            <footer class="text-center text-muted mt-6 pt-5 border-top">
+            <!-- Footer -->
+            <footer class="privacy-footer">
                 <small>© @DateTime.Now.Year JobSpot. All rights reserved.</small>
-            </footer>   
+            </footer>
         </div>
     </div>
 </div>
-
-<style>
-    .privacy-header {
-        border-bottom: 2px solid #0d6efd;
-        padding-bottom: 1rem;
-    }
-
-    .card {
-        border: none;
-        border-left: 4px solid #0d6efd;
-    }
-    
-    .card-title {
-        font-weight: 600;
-        margin-bottom: 1rem;
-    }
-
-    .list-group-item {
-        border: none;
-        padding: 0.5rem 1rem;
-    }
-
-    .list-group-item:hover {
-        background-color: #f8f9fa;
-    }
-
-    .alert-info {
-        background-color: #e9f5ff;
-        border-color: #b8daff;
-    }
-
-    /* Additional space before footer */
-    footer {
-        margin-top: 5rem;
-        padding-top: 2rem;
-    }
-</style>

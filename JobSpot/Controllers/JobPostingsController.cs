@@ -1,7 +1,4 @@
-﻿// Changed for auth claims, previous version before change: 0.4.5
-// wasn`t done
-
-using JobSpot.Interfaces;
+﻿using JobSpot.Interfaces;
 using JobSpot.Models;
 using JobSpot.Repositories;
 using JobSpot.ViewModels;
