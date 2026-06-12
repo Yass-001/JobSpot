@@ -130,6 +130,10 @@ namespace JobSpot.Repositories
                 JobSortOption.Oldest => query.OrderBy(jp => jp.PostedDate),
                 JobSortOption.SalaryHighToLow => query.OrderByDescending(jp => jp.SalaryMax),
                 JobSortOption.SalaryLowToHigh => query.OrderBy(jp => jp.SalaryMin),
+                JobSortOption.CompanyAZ => query.OrderBy(jp => jp.Company),
+                JobSortOption.CompanyZA => query.OrderByDescending(jp => jp.Company),
+                JobSortOption.TitleAZ => query.OrderBy(jp => jp.Title),
+                JobSortOption.TitleZA => query.OrderByDescending(jp => jp.Title),
                 _ => query.OrderByDescending(jp => jp.PostedDate)
             };
 
