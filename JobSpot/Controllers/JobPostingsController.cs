@@ -36,8 +36,8 @@ namespace JobSpot.Controllers
         /// </summary>
         [AllowAnonymous]
         public async Task<IActionResult> Index(
-            string searchQuery = null,
-            string category = null,
+            string? searchQuery = null,
+            string? category = null,
             decimal? salaryMin = null,
             decimal? salaryMax = null,
             int? postedWithinDays = null,

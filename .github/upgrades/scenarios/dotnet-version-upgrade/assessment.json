@@ -1,0 +1,610 @@
+{
+  "settings": {
+    "components": {
+      "code": true,
+      "binaries": false
+    },
+    "targetId": "net10.0",
+    "targetDisplayName": ".NETCoreApp,Version=v10.0"
+  },
+  "analysisStartTime": "2026-06-12T10:29:23.2319613Z",
+  "analysisEndTime": "2026-06-12T10:29:39.7967977Z",
+  "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2270980",
+  "stats": {
+    "summary": {
+      "projects": 2,
+      "issues": 5,
+      "incidents": 19,
+      "effort": 19
+    },
+    "charts": {
+      "severity": {
+        "Mandatory": 2,
+        "Optional": 1,
+        "Potential": 16,
+        "Information": 0
+      },
+      "category": {
+        "NuGet": 10,
+        "Project": 2,
+        "Api": 7
+      }
+    }
+  },
+  "projects": [
+    {
+      "path": "JobSpot\\JobSpot.csproj",
+      "startingProject": true,
+      "issues": 4,
+      "storyPoints": 14,
+      "properties": {
+        "appName": "JobSpot",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net9.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 62,
+        "numberOfCodeFiles": 56,
+        "linesTotal": 5595,
+        "linesOfCode": 5527,
+        "totalApiScanned": 15652,
+        "minLinesOfCodeToChange": 7,
+        "maxLinesOfCodeToChange": 7
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "b35f6be7-ef73-4e9a-9c50-6b8cae1c9c5f",
+          "ruleId": "NuGet.0002",
+          "projectPath": "JobSpot\\JobSpot.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Authentication.Google, 9.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Authentication.Google, and replace with new package Microsoft.AspNetCore.Authentication.Google 10.0.9",
+              "protected": "Microsoft.AspNetCore.Authentication.Google, 9.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Authentication.Google, and replace with new package Microsoft.AspNetCore.Authentication.Google 10.0.9"
+            },
+            "kind": "File",
+            "path": "JobSpot\\JobSpot.csproj",
+            "snippet": "Microsoft.AspNetCore.Authentication.Google, 9.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Authentication.Google, and replace with new package Microsoft.AspNetCore.Authentication.Google 10.0.9",
+            "protectedSnippet": "Microsoft.AspNetCore.Authentication.Google, 9.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Authentication.Google, and replace with new package Microsoft.AspNetCore.Authentication.Google 10.0.9",
+            "label": "Microsoft.AspNetCore.Authentication.Google 9.0.14",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Authentication.Google",
+              "PackageVersion": "9.0.14",
+              "PackageNewVersion": "10.0.9",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "c4053b8b-3747-4c58-9bc0-374c67bd4064",
+          "ruleId": "NuGet.0002",
+          "projectPath": "JobSpot\\JobSpot.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.9",
+              "protected": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.9"
+            },
+            "kind": "File",
+            "path": "JobSpot\\JobSpot.csproj",
+            "snippet": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.9",
+            "protectedSnippet": "Microsoft.AspNetCore.Identity.EntityFrameworkCore, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.EntityFrameworkCore, and replace with new package Microsoft.AspNetCore.Identity.EntityFrameworkCore 10.0.9",
+            "label": "Microsoft.AspNetCore.Identity.EntityFrameworkCore 9.0.10",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.EntityFrameworkCore",
+              "PackageVersion": "9.0.10",
+              "PackageNewVersion": "10.0.9",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "43fbff0e-e294-4845-9e97-281e1ad67ad0",
+          "ruleId": "NuGet.0002",
+          "projectPath": "JobSpot\\JobSpot.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Identity.UI, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.UI, and replace with new package Microsoft.AspNetCore.Identity.UI 10.0.9",
+              "protected": "Microsoft.AspNetCore.Identity.UI, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.UI, and replace with new package Microsoft.AspNetCore.Identity.UI 10.0.9"
+            },
+            "kind": "File",
+            "path": "JobSpot\\JobSpot.csproj",
+            "snippet": "Microsoft.AspNetCore.Identity.UI, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.UI, and replace with new package Microsoft.AspNetCore.Identity.UI 10.0.9",
+            "protectedSnippet": "Microsoft.AspNetCore.Identity.UI, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Identity.UI, and replace with new package Microsoft.AspNetCore.Identity.UI 10.0.9",
+            "label": "Microsoft.AspNetCore.Identity.UI 9.0.10",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.UI",
+              "PackageVersion": "9.0.10",
+              "PackageNewVersion": "10.0.9",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "83697801-6774-4840-9212-40ad27f8bed6",
+          "ruleId": "NuGet.0002",
+          "projectPath": "JobSpot\\JobSpot.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.SqlServer, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.9",
+              "protected": "Microsoft.EntityFrameworkCore.SqlServer, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.9"
+            },
+            "kind": "File",
+            "path": "JobSpot\\JobSpot.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.SqlServer, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.9",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.SqlServer, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.SqlServer, and replace with new package Microsoft.EntityFrameworkCore.SqlServer 10.0.9",
+            "label": "Microsoft.EntityFrameworkCore.SqlServer 9.0.10",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.SqlServer",
+              "PackageVersion": "9.0.10",
+              "PackageNewVersion": "10.0.9",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "12b56b05-6bb1-436b-b7cf-39a1546ea8fc",
+          "ruleId": "NuGet.0002",
+          "projectPath": "JobSpot\\JobSpot.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Tools, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.9",
+              "protected": "Microsoft.EntityFrameworkCore.Tools, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.9"
+            },
+            "kind": "File",
+            "path": "JobSpot\\JobSpot.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Tools, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.9",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Tools, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.9",
+            "label": "Microsoft.EntityFrameworkCore.Tools 9.0.10",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.Tools",
+              "PackageVersion": "9.0.10",
+              "PackageNewVersion": "10.0.9",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "f13ed55e-bae1-4e74-8abc-89699644c04e",
+          "ruleId": "NuGet.0002",
+          "projectPath": "JobSpot\\JobSpot.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 9.0.0\n\nRecommendation:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.2",
+              "protected": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 9.0.0\n\nRecommendation:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.2"
+            },
+            "kind": "File",
+            "path": "JobSpot\\JobSpot.csproj",
+            "snippet": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 9.0.0\n\nRecommendation:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.2",
+            "protectedSnippet": "Microsoft.VisualStudio.Web.CodeGeneration.Design, 9.0.0\n\nRecommendation:\n\nRemove Microsoft.VisualStudio.Web.CodeGeneration.Design, and replace with new package Microsoft.VisualStudio.Web.CodeGeneration.Design 10.0.2",
+            "label": "Microsoft.VisualStudio.Web.CodeGeneration.Design 9.0.0",
+            "properties": {
+              "PackageId": "Microsoft.VisualStudio.Web.CodeGeneration.Design",
+              "PackageVersion": "9.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "a4034a08-e7fc-4dab-aea2-1396b06b114e",
+          "ruleId": "Project.0002",
+          "projectPath": "JobSpot\\JobSpot.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net9.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net9.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "JobSpot\\JobSpot.csproj",
+            "snippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net9.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "8a54d1eb-559d-4fa9-94d7-b697813d51b8",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: Exception diagnostics are suppressed when IExceptionHandler.TryHandleAsync returns true ",
+          "projectPath": "JobSpot\\JobSpot.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "app.UseExceptionHandler(\u0022/Home/Error\u0022);",
+              "protected": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)"
+            },
+            "kind": "File",
+            "path": "JobSpot\\JobSpot\\Program.cs",
+            "snippet": "app.UseExceptionHandler(\u0022/Home/Error\u0022);",
+            "protectedSnippet": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)",
+            "label": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/exception-handler-diagnostics-suppressed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 106,
+            "column": 4
+          }
+        },
+        {
+          "incidentId": "aacc6155-4e0f-4658-84db-8cf14481250e",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Authentication.Google, 8.0.6. Add package reference to Microsoft.AspNetCore.Authentication.Google, 8.0.6",
+          "projectPath": "JobSpot\\JobSpot.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "builder.Services.AddAuthentication(options =\u003E\r\n{\r\n    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;\r\n    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;\r\n})\r\n    .AddGoogle(\u0022Google\u0022, options =\u003E // Configure Google OAuth - Storing Credentials Securely\r\n    {\r\n        var clientId = builder.Configuration[\u0022Authentication:Google:ClientId\u0022];\r\n        var clientSecret = builder.Configuration[\u0022Authentication:Google:ClientSecret\u0022];\r\n\r\n        if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))\r\n        {\r\n            throw new InvalidOperationException(\u0022Google OAuth credentials are not configured.\u0022);\r\n        }\r\n        \r\n        options.ClientId = clientId;\r\n        options.ClientSecret = clientSecret;\r\n        // https://console.cloud.google.com/ -\u003E after Y register your app -\u003E\r\n        // create OAuth 2.0 Client ID -\u003E copy the client ID and client secret here\r\n        // https://console.cloud.google.com/ -\u003E register your app -\u003E set the authorized redirect URI\r\n        // to https://localhost:????/signin-google (or whatever your app URL is) -\u003E use this path as CallbackPath\r\n        options.CallbackPath = \u0022/signin-google\u0022; // This should match the authorized redirect URI you set in the Google Developer Console\r\n        options.SignInScheme = IdentityConstants.ExternalScheme;\r\n        options.SaveTokens = true; // Important: This saves access tokens as UserTokens\r\n        options.Events = new OAuthEvents\r\n        {\r\n            OnCreatingTicket = async context =\u003E\r\n            {\r\n                // Store the access token and refresh token\r\n                var accessToken = context.AccessToken;\r\n                var refreshToken = context.RefreshToken;\r\n\r\n                if (!string.IsNullOrEmpty(accessToken))\r\n                {\r\n                    context.Properties.StoreTokens(new[]\r\n                    {\r\n                        new AuthenticationToken { Name = \u0022access_token\u0022, Value = accessToken },\r\n                        new AuthenticationToken { Name = \u0022refresh_token\u0022, Value = refreshToken ?? \u0022\u0022 }\r\n                    });\r\n                }\r\n            }\r\n        };\r\n    });",
+              "protected": "T:Microsoft.Extensions.DependencyInjection.GoogleExtensions"
+            },
+            "kind": "File",
+            "path": "JobSpot\\JobSpot\\Program.cs",
+            "snippet": "builder.Services.AddAuthentication(options =\u003E\r\n{\r\n    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;\r\n    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;\r\n})\r\n    .AddGoogle(\u0022Google\u0022, options =\u003E // Configure Google OAuth - Storing Credentials Securely\r\n    {\r\n        var clientId = builder.Configuration[\u0022Authentication:Google:ClientId\u0022];\r\n        var clientSecret = builder.Configuration[\u0022Authentication:Google:ClientSecret\u0022];\r\n\r\n        if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))\r\n        {\r\n            throw new InvalidOperationException(\u0022Google OAuth credentials are not configured.\u0022);\r\n        }\r\n        \r\n        options.ClientId = clientId;\r\n        options.ClientSecret = clientSecret;\r\n        // https://console.cloud.google.com/ -\u003E after Y register your app -\u003E\r\n        // create OAuth 2.0 Client ID -\u003E copy the client ID and client secret here\r\n        // https://console.cloud.google.com/ -\u003E register your app -\u003E set the authorized redirect URI\r\n        // to https://localhost:????/signin-google (or whatever your app URL is) -\u003E use this path as CallbackPath\r\n        options.CallbackPath = \u0022/signin-google\u0022; // This should match the authorized redirect URI you set in the Google Developer Console\r\n        options.SignInScheme = IdentityConstants.ExternalScheme;\r\n        options.SaveTokens = true; // Important: This saves access tokens as UserTokens\r\n        options.Events = new OAuthEvents\r\n        {\r\n            OnCreatingTicket = async context =\u003E\r\n            {\r\n                // Store the access token and refresh token\r\n                var accessToken = context.AccessToken;\r\n                var refreshToken = context.RefreshToken;\r\n\r\n                if (!string.IsNullOrEmpty(accessToken))\r\n                {\r\n                    context.Properties.StoreTokens(new[]\r\n                    {\r\n                        new AuthenticationToken { Name = \u0022access_token\u0022, Value = accessToken },\r\n                        new AuthenticationToken { Name = \u0022refresh_token\u0022, Value = refreshToken ?? \u0022\u0022 }\r\n                    });\r\n                }\r\n            }\r\n        };\r\n    });",
+            "protectedSnippet": "T:Microsoft.Extensions.DependencyInjection.GoogleExtensions",
+            "label": "T:Microsoft.Extensions.DependencyInjection.GoogleExtensions",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Authentication.Google",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 45,
+            "column": 0
+          }
+        },
+        {
+          "incidentId": "76ed2def-0264-41c9-b655-2916a23db048",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Authentication.Google, 8.0.6. Add package reference to Microsoft.AspNetCore.Authentication.Google, 8.0.6",
+          "projectPath": "JobSpot\\JobSpot.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "builder.Services.AddAuthentication(options =\u003E\r\n{\r\n    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;\r\n    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;\r\n})\r\n    .AddGoogle(\u0022Google\u0022, options =\u003E // Configure Google OAuth - Storing Credentials Securely\r\n    {\r\n        var clientId = builder.Configuration[\u0022Authentication:Google:ClientId\u0022];\r\n        var clientSecret = builder.Configuration[\u0022Authentication:Google:ClientSecret\u0022];\r\n\r\n        if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))\r\n        {\r\n            throw new InvalidOperationException(\u0022Google OAuth credentials are not configured.\u0022);\r\n        }\r\n        \r\n        options.ClientId = clientId;\r\n        options.ClientSecret = clientSecret;\r\n        // https://console.cloud.google.com/ -\u003E after Y register your app -\u003E\r\n        // create OAuth 2.0 Client ID -\u003E copy the client ID and client secret here\r\n        // https://console.cloud.google.com/ -\u003E register your app -\u003E set the authorized redirect URI\r\n        // to https://localhost:????/signin-google (or whatever your app URL is) -\u003E use this path as CallbackPath\r\n        options.CallbackPath = \u0022/signin-google\u0022; // This should match the authorized redirect URI you set in the Google Developer Console\r\n        options.SignInScheme = IdentityConstants.ExternalScheme;\r\n        options.SaveTokens = true; // Important: This saves access tokens as UserTokens\r\n        options.Events = new OAuthEvents\r\n        {\r\n            OnCreatingTicket = async context =\u003E\r\n            {\r\n                // Store the access token and refresh token\r\n                var accessToken = context.AccessToken;\r\n                var refreshToken = context.RefreshToken;\r\n\r\n                if (!string.IsNullOrEmpty(accessToken))\r\n                {\r\n                    context.Properties.StoreTokens(new[]\r\n                    {\r\n                        new AuthenticationToken { Name = \u0022access_token\u0022, Value = accessToken },\r\n                        new AuthenticationToken { Name = \u0022refresh_token\u0022, Value = refreshToken ?? \u0022\u0022 }\r\n                    });\r\n                }\r\n            }\r\n        };\r\n    });",
+              "protected": "M:Microsoft.Extensions.DependencyInjection.GoogleExtensions.AddGoogle(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.Action{Microsoft.AspNetCore.Authentication.Google.GoogleOptions})"
+            },
+            "kind": "File",
+            "path": "JobSpot\\JobSpot\\Program.cs",
+            "snippet": "builder.Services.AddAuthentication(options =\u003E\r\n{\r\n    options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;\r\n    options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;\r\n})\r\n    .AddGoogle(\u0022Google\u0022, options =\u003E // Configure Google OAuth - Storing Credentials Securely\r\n    {\r\n        var clientId = builder.Configuration[\u0022Authentication:Google:ClientId\u0022];\r\n        var clientSecret = builder.Configuration[\u0022Authentication:Google:ClientSecret\u0022];\r\n\r\n        if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))\r\n        {\r\n            throw new InvalidOperationException(\u0022Google OAuth credentials are not configured.\u0022);\r\n        }\r\n        \r\n        options.ClientId = clientId;\r\n        options.ClientSecret = clientSecret;\r\n        // https://console.cloud.google.com/ -\u003E after Y register your app -\u003E\r\n        // create OAuth 2.0 Client ID -\u003E copy the client ID and client secret here\r\n        // https://console.cloud.google.com/ -\u003E register your app -\u003E set the authorized redirect URI\r\n        // to https://localhost:????/signin-google (or whatever your app URL is) -\u003E use this path as CallbackPath\r\n        options.CallbackPath = \u0022/signin-google\u0022; // This should match the authorized redirect URI you set in the Google Developer Console\r\n        options.SignInScheme = IdentityConstants.ExternalScheme;\r\n        options.SaveTokens = true; // Important: This saves access tokens as UserTokens\r\n        options.Events = new OAuthEvents\r\n        {\r\n            OnCreatingTicket = async context =\u003E\r\n            {\r\n                // Store the access token and refresh token\r\n                var accessToken = context.AccessToken;\r\n                var refreshToken = context.RefreshToken;\r\n\r\n                if (!string.IsNullOrEmpty(accessToken))\r\n                {\r\n                    context.Properties.StoreTokens(new[]\r\n                    {\r\n                        new AuthenticationToken { Name = \u0022access_token\u0022, Value = accessToken },\r\n                        new AuthenticationToken { Name = \u0022refresh_token\u0022, Value = refreshToken ?? \u0022\u0022 }\r\n                    });\r\n                }\r\n            }\r\n        };\r\n    });",
+            "protectedSnippet": "M:Microsoft.Extensions.DependencyInjection.GoogleExtensions.AddGoogle(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.Action{Microsoft.AspNetCore.Authentication.Google.GoogleOptions})",
+            "label": "M:Microsoft.Extensions.DependencyInjection.GoogleExtensions.AddGoogle(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.Action{Microsoft.AspNetCore.Authentication.Google.GoogleOptions})",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Authentication.Google",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 45,
+            "column": 0
+          }
+        },
+        {
+          "incidentId": "ae963be2-14d8-4b3e-b0e6-a9d7efd7ced4",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Identity.UI, 8.0.6. Add package reference to Microsoft.AspNetCore.Identity.UI, 8.0.6",
+          "projectPath": "JobSpot\\JobSpot.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "builder.Services.AddDefaultIdentity\u003CIdentityUser\u003E(options =\u003E options.SignIn.RequireConfirmedAccount = false)\r\n    .AddRoles\u003CIdentityRole\u003E()\r\n    .AddEntityFrameworkStores\u003CAppDbContext\u003E();",
+              "protected": "T:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions"
+            },
+            "kind": "File",
+            "path": "JobSpot\\JobSpot\\Program.cs",
+            "snippet": "builder.Services.AddDefaultIdentity\u003CIdentityUser\u003E(options =\u003E options.SignIn.RequireConfirmedAccount = false)\r\n    .AddRoles\u003CIdentityRole\u003E()\r\n    .AddEntityFrameworkStores\u003CAppDbContext\u003E();",
+            "protectedSnippet": "T:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions",
+            "label": "T:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.UI",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 30,
+            "column": 0
+          }
+        },
+        {
+          "incidentId": "c8f496ff-f2b0-48b0-a9e8-5562b8dcf5c9",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Identity.UI, 8.0.6. Add package reference to Microsoft.AspNetCore.Identity.UI, 8.0.6",
+          "projectPath": "JobSpot\\JobSpot.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "builder.Services.AddDefaultIdentity\u003CIdentityUser\u003E(options =\u003E options.SignIn.RequireConfirmedAccount = false)\r\n    .AddRoles\u003CIdentityRole\u003E()\r\n    .AddEntityFrameworkStores\u003CAppDbContext\u003E();",
+              "protected": "M:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions.AddDefaultIdentity\u0060\u00601(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})"
+            },
+            "kind": "File",
+            "path": "JobSpot\\JobSpot\\Program.cs",
+            "snippet": "builder.Services.AddDefaultIdentity\u003CIdentityUser\u003E(options =\u003E options.SignIn.RequireConfirmedAccount = false)\r\n    .AddRoles\u003CIdentityRole\u003E()\r\n    .AddEntityFrameworkStores\u003CAppDbContext\u003E();",
+            "protectedSnippet": "M:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions.AddDefaultIdentity\u0060\u00601(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})",
+            "label": "M:Microsoft.Extensions.DependencyInjection.IdentityServiceCollectionUIExtensions.AddDefaultIdentity\u0060\u00601(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Microsoft.AspNetCore.Identity.IdentityOptions})",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.UI",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 30,
+            "column": 0
+          }
+        },
+        {
+          "incidentId": "45bd3577-3477-4150-a1b6-9b77d7841f19",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Identity.EntityFrameworkCore, 8.0.6. Add package reference to Microsoft.AspNetCore.Identity.EntityFrameworkCore, 8.0.6",
+          "projectPath": "JobSpot\\JobSpot.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "builder.Services.AddDefaultIdentity\u003CIdentityUser\u003E(options =\u003E options.SignIn.RequireConfirmedAccount = false)\r\n    .AddRoles\u003CIdentityRole\u003E()\r\n    .AddEntityFrameworkStores\u003CAppDbContext\u003E();",
+              "protected": "T:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions"
+            },
+            "kind": "File",
+            "path": "JobSpot\\JobSpot\\Program.cs",
+            "snippet": "builder.Services.AddDefaultIdentity\u003CIdentityUser\u003E(options =\u003E options.SignIn.RequireConfirmedAccount = false)\r\n    .AddRoles\u003CIdentityRole\u003E()\r\n    .AddEntityFrameworkStores\u003CAppDbContext\u003E();",
+            "protectedSnippet": "T:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions",
+            "label": "T:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.EntityFrameworkCore",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 30,
+            "column": 0
+          }
+        },
+        {
+          "incidentId": "35a24bf5-df8d-4524-b9a6-184800c936d3",
+          "ruleId": "Api.0002",
+          "description": "API is available in package Microsoft.AspNetCore.Identity.EntityFrameworkCore, 8.0.6. Add package reference to Microsoft.AspNetCore.Identity.EntityFrameworkCore, 8.0.6",
+          "projectPath": "JobSpot\\JobSpot.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "builder.Services.AddDefaultIdentity\u003CIdentityUser\u003E(options =\u003E options.SignIn.RequireConfirmedAccount = false)\r\n    .AddRoles\u003CIdentityRole\u003E()\r\n    .AddEntityFrameworkStores\u003CAppDbContext\u003E();",
+              "protected": "M:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions.AddEntityFrameworkStores\u0060\u00601(Microsoft.AspNetCore.Identity.IdentityBuilder)"
+            },
+            "kind": "File",
+            "path": "JobSpot\\JobSpot\\Program.cs",
+            "snippet": "builder.Services.AddDefaultIdentity\u003CIdentityUser\u003E(options =\u003E options.SignIn.RequireConfirmedAccount = false)\r\n    .AddRoles\u003CIdentityRole\u003E()\r\n    .AddEntityFrameworkStores\u003CAppDbContext\u003E();",
+            "protectedSnippet": "M:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions.AddEntityFrameworkStores\u0060\u00601(Microsoft.AspNetCore.Identity.IdentityBuilder)",
+            "label": "M:Microsoft.Extensions.DependencyInjection.IdentityEntityFrameworkBuilderExtensions.AddEntityFrameworkStores\u0060\u00601(Microsoft.AspNetCore.Identity.IdentityBuilder)",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Identity.EntityFrameworkCore",
+              "PackageNewVersion": "8.0.6"
+            },
+            "line": 30,
+            "column": 0
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "JobSpot.Repository.Tests\\JobSpot.Tests.csproj",
+      "startingProject": true,
+      "issues": 3,
+      "storyPoints": 5,
+      "properties": {
+        "appName": "JobSpot.Tests",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net9.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 4,
+        "numberOfCodeFiles": 2,
+        "linesTotal": 2455,
+        "linesOfCode": 672,
+        "totalApiScanned": 1026,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "d98d114c-351f-400f-b207-3914e03ad330",
+          "ruleId": "NuGet.0002",
+          "projectPath": "JobSpot.Repository.Tests\\JobSpot.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Authentication.Google, 9.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Authentication.Google, and replace with new package Microsoft.AspNetCore.Authentication.Google 10.0.9",
+              "protected": "Microsoft.AspNetCore.Authentication.Google, 9.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Authentication.Google, and replace with new package Microsoft.AspNetCore.Authentication.Google 10.0.9"
+            },
+            "kind": "File",
+            "path": "JobSpot.Repository.Tests\\JobSpot.Tests.csproj",
+            "snippet": "Microsoft.AspNetCore.Authentication.Google, 9.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Authentication.Google, and replace with new package Microsoft.AspNetCore.Authentication.Google 10.0.9",
+            "protectedSnippet": "Microsoft.AspNetCore.Authentication.Google, 9.0.14\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Authentication.Google, and replace with new package Microsoft.AspNetCore.Authentication.Google 10.0.9",
+            "label": "Microsoft.AspNetCore.Authentication.Google 9.0.14",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Authentication.Google",
+              "PackageVersion": "9.0.14",
+              "PackageNewVersion": "10.0.9",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "09db2cb8-27e6-4a37-8db3-a07525d24c3b",
+          "ruleId": "NuGet.0002",
+          "projectPath": "JobSpot.Repository.Tests\\JobSpot.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.InMemory, 9.0.11\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.InMemory, and replace with new package Microsoft.EntityFrameworkCore.InMemory 10.0.9",
+              "protected": "Microsoft.EntityFrameworkCore.InMemory, 9.0.11\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.InMemory, and replace with new package Microsoft.EntityFrameworkCore.InMemory 10.0.9"
+            },
+            "kind": "File",
+            "path": "JobSpot.Repository.Tests\\JobSpot.Tests.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.InMemory, 9.0.11\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.InMemory, and replace with new package Microsoft.EntityFrameworkCore.InMemory 10.0.9",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.InMemory, 9.0.11\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.InMemory, and replace with new package Microsoft.EntityFrameworkCore.InMemory 10.0.9",
+            "label": "Microsoft.EntityFrameworkCore.InMemory 9.0.11",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.InMemory",
+              "PackageVersion": "9.0.11",
+              "PackageNewVersion": "10.0.9",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "058f9f9d-9cb6-4a78-ba18-4f0a1eabafd0",
+          "ruleId": "NuGet.0002",
+          "projectPath": "JobSpot.Repository.Tests\\JobSpot.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Tools, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.9",
+              "protected": "Microsoft.EntityFrameworkCore.Tools, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.9"
+            },
+            "kind": "File",
+            "path": "JobSpot.Repository.Tests\\JobSpot.Tests.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Tools, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.9",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Tools, 9.0.10\n\nRecommendation:\n\nRemove Microsoft.EntityFrameworkCore.Tools, and replace with new package Microsoft.EntityFrameworkCore.Tools 10.0.9",
+            "label": "Microsoft.EntityFrameworkCore.Tools 9.0.10",
+            "properties": {
+              "PackageId": "Microsoft.EntityFrameworkCore.Tools",
+              "PackageVersion": "9.0.10",
+              "PackageNewVersion": "10.0.9",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "c583f4fd-404b-4d3c-8111-1bdd831e8ade",
+          "ruleId": "NuGet.0005",
+          "projectPath": "JobSpot.Repository.Tests\\JobSpot.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "xunit, 2.9.2\n\nRecommendation:\n\nThis package will only be updated for security issues. All future feature work has moved onto v3.\n\nGuide for migrating from xUnit.net v2 to v3: https://xunit.net/docs/getting-started/v3/migration\nRemove xunit, and replace with new package xunit, 2.9.3",
+              "protected": "xunit, 2.9.2\n\nRecommendation:\n\nThis package will only be updated for security issues. All future feature work has moved onto v3.\n\nGuide for migrating from xUnit.net v2 to v3: https://xunit.net/docs/getting-started/v3/migration\nRemove xunit, and replace with new package xunit, 2.9.3"
+            },
+            "kind": "File",
+            "path": "JobSpot.Repository.Tests\\JobSpot.Tests.csproj",
+            "snippet": "xunit, 2.9.2\n\nRecommendation:\n\nThis package will only be updated for security issues. All future feature work has moved onto v3.\n\nGuide for migrating from xUnit.net v2 to v3: https://xunit.net/docs/getting-started/v3/migration\nRemove xunit, and replace with new package xunit, 2.9.3",
+            "protectedSnippet": "xunit, 2.9.2\n\nRecommendation:\n\nThis package will only be updated for security issues. All future feature work has moved onto v3.\n\nGuide for migrating from xUnit.net v2 to v3: https://xunit.net/docs/getting-started/v3/migration\nRemove xunit, and replace with new package xunit, 2.9.3",
+            "label": "xunit 2.9.2",
+            "properties": {
+              "PackageId": "xunit",
+              "PackageVersion": "2.9.2",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "c8ec9e4f-94c6-4c43-8fd6-6a8e0bcde4c6",
+          "ruleId": "Project.0002",
+          "projectPath": "JobSpot.Repository.Tests\\JobSpot.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net9.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net9.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "JobSpot.Repository.Tests\\JobSpot.Tests.csproj",
+            "snippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net9.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    }
+  ],
+  "rules": {
+    "NuGet.0002": {
+      "id": "NuGet.0002",
+      "isFeature": false,
+      "description": "NuGet package upgrade is recommended for selected target framework.\n\nStandard .NET packages are recommended to have versions matching version of .NET that project targets.\n\nSome other packages also are known to work better for selected target frameworks.",
+      "label": "NuGet package upgrade is recommended",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262530",
+          "isCustom": false
+        }
+      ]
+    },
+    "Project.0002": {
+      "id": "Project.0002",
+      "isFeature": false,
+      "description": "Project\u0027s target framework(s) needs to be changed to the new target framework that you selected for this upgrade.\n\nDuring upgrade target framework will be adjusted to corresponding platform when applicable. In some cases project would result in multiple target frameworks after the upgrade if it was using features that now have their own platforms in modern .NET frameworks (windows, iOS, Android etc).",
+      "label": "Project\u0027s target framework(s) needs to be changed",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Overview of porting from .NET Framework to .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265227",
+          "isCustom": false
+        },
+        {
+          "title": ".NET project SDKs",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265226",
+          "isCustom": false
+        }
+      ]
+    },
+    "Api.0003": {
+      "id": "Api.0003",
+      "isFeature": false,
+      "description": "API has a behavioral change in selected .NET version: code and binaries may behave differently at runtime without needing recompilation, but the new behavior might be undesirable and require updates.",
+      "label": "Behavioral change in selected .NET version",
+      "severity": "Potential",
+      "effort": 1
+    },
+    "Api.0002": {
+      "id": "Api.0002",
+      "isFeature": false,
+      "description": "API is source incompatible for selected .NET version: requires code changes to compile successfully when targeting a new version, such as removing obsolete APIs or changing method signatures.",
+      "label": "Source incompatible for selected .NET version",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Breaking changes in .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262679",
+          "isCustom": false
+        }
+      ]
+    },
+    "NuGet.0005": {
+      "id": "NuGet.0005",
+      "isFeature": false,
+      "description": "NuGet package is deprecated.\n\nGo to its documentation and if there is a guidance for replacement of functionality provided by this package.",
+      "label": "NuGet package is deprecated",
+      "severity": "Optional",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262531",
+          "isCustom": false
+        }
+      ]
+    }
+  }
+}
