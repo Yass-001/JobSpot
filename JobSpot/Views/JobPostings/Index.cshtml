@@ -227,7 +227,7 @@
 
                             <p class="card-text" style="color: #5a5c69; font-size: 0.9rem; margin-bottom: 1rem;">
                                 @{
-                                    var description = jobPosting.Description;
+                                    var description = jobPosting.Description ?? string.Empty; // ?!
                                     if (description.Length > 120)
                                     {
                                         description = description.Substring(0, 120) + "...";

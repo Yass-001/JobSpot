@@ -74,13 +74,17 @@ namespace JobSpot.Repositories
         public async Task UpdateAsync(JobPosting entity)
         {
             var jobPostingForUpdate = await _context.JobPostings.FindAsync(entity.Id);
+            if (jobPostingForUpdate == null)
+            {
+                throw new KeyNotFoundException($"JobPosting with Id {entity.Id} not found.");
+            }
             _context.Entry(jobPostingForUpdate).CurrentValues.SetValues(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task<ViewModels.PaginatedResult<JobPosting>> SearchAndFilterAsync(
-            string searchQuery = null,
-            string category = null,
+            string? searchQuery = null,
+            string? category = null,
             decimal? salaryMin = null,
             decimal? salaryMax = null,
             int? postedWithinDays = null,
@@ -93,10 +97,10 @@ namespace JobSpot.Repositories
             // Filter by search query
             if (!string.IsNullOrWhiteSpace(searchQuery))
             {
-                query = query.Where(jp => jp.Title.Contains(searchQuery) || 
-                                          jp.Description.Contains(searchQuery) ||
-                                          jp.Company.Contains(searchQuery) ||
-                                          jp.Location.Contains(searchQuery));
+                query = query.Where(jp => (jp.Title ?? "").Contains(searchQuery) || 
+                                          (jp.Description ?? "").Contains(searchQuery) ||
+                                          (jp.Company ?? "").Contains(searchQuery) ||
+                                          (jp.Location ?? "").Contains(searchQuery));
             }
 
             // Filter by category
@@ -157,12 +161,24 @@ namespace JobSpot.Repositories
 
         public async Task<IEnumerable<string>> GetCategoriesAsync()
         {
-            return await _context.JobPostings
+            return (await _context.JobPostings
                 .Select(jp => jp.Category)
+                .Where(c => c != null)
                 .Distinct()
                 .OrderBy(c => c)
-                .ToListAsync();
+                .ToListAsync()).Cast<string>();
         }
+        //public async Task<IEnumerable<string>> GetCategoriesAsync()
+        //{
+        //    return await _context.JobPostings
+        //    return await _context.JobPostings
+        //        .Select(jp => jp.Category)
+        //        .Where(c => c != null)
+        //        .Distinct()
+        //        .OrderBy(c => c)
+        //        .ToListAsync();
+        //}
+
     }
 }
 

@@ -12,28 +12,28 @@ namespace JobSpot.ViewModels
         public Guid Id { get; set; }
 
         [Required]
-        [StringLength(200, MinimumLength = 5)]
-        [Display(Name = "Job Title")]
-        public string Title { get; set; }
+            [StringLength(200, MinimumLength = 5)]
+            [Display(Name = "Job Title")]
+            public string? Title { get; set; }
 
-        [Required]
-        [StringLength(5000, MinimumLength = 10)]
-        [Display(Name = "Job Description")]
-        public string Description { get; set; }
+            [Required]
+            [StringLength(5000, MinimumLength = 10)]
+            [Display(Name = "Job Description")]
+            public string? Description { get; set; }
 
-        [Required]
-        [StringLength(150, MinimumLength = 2)]
-        [Display(Name = "Company Name")]
-        public string Company { get; set; }
+            [Required]
+            [StringLength(150, MinimumLength = 2)]
+            [Display(Name = "Company Name")]
+            public string? Company { get; set; }
 
-        [Required]
-        [StringLength(150, MinimumLength = 2)]
-        [Display(Name = "Location")]
-        public string Location { get; set; }
+            [Required]
+            [StringLength(150, MinimumLength = 2)]
+            [Display(Name = "Location")]
+            public string? Location { get; set; }
 
-        [StringLength(100)]
-        [Display(Name = "Job Category")]
-        public string Category { get; set; }
+            [StringLength(100)]
+            [Display(Name = "Job Category")]
+            public string? Category { get; set; }
 
         [Display(Name = "Minimum Salary")]
         [Range(0, 9999999)]
