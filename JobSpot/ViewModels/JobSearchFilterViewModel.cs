@@ -15,7 +15,7 @@ namespace JobSpot.ViewModels
         /// </summary>
         [Display(Name = "Search (Title, Company, Location)")]
         [StringLength(200)]
-        public string SearchQuery { get; set; }
+        public string? SearchQuery { get; set; }
 
         // ===== Filter Parameters =====
 
@@ -24,7 +24,7 @@ namespace JobSpot.ViewModels
         /// </summary>
         [Display(Name = "Category")]
         [StringLength(100)]
-        public string Category { get; set; }
+        public string? Category { get; set; }
 
         /// <summary>
         /// Minimum salary filter
