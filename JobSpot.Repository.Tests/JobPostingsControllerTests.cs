@@ -61,8 +61,14 @@ namespace JobSpot.Repository.Tests
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<IEnumerable<JobPosting>>(viewResult.Model);
-            Assert.Equal(2, model.Count());
+            //var model = Assert.IsAssignableFrom<IEnumerable<JobPosting>>(viewResult.Model);
+            //Assert.Equal(2, model.Count());
+            var paginated = Assert.IsType<PaginatedResult<JobPosting>>(viewResult.Model);
+            var expectedUserId = list.First().UserId; 
+            Assert.All(paginated.Items, jp => Assert.Equal(expectedUserId, jp.UserId));
+            //Assert.Single(paginated.Items);
+            //Assert.Equal(1, paginated.TotalCount);
+            Assert.Equal(2, paginated.TotalCount);
         }
 
         [Fact]

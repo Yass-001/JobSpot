@@ -16,6 +16,10 @@ namespace JobSpot.Repositories
             _context = appDbContext;
         }
 
+        public JobPostingRepository()
+        {
+        }
+
         public async Task AddAsync(JobPosting entity)
         {
             if (entity == null)
