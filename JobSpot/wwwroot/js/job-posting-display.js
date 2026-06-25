@@ -12,4 +12,8 @@ window.JobPosting = { truncateDescription };
 // <script src="~/js/job-posting-display.js"></script>
 // <script>
 //     // Now you can use: window.JobPosting.truncateDescription(description, 120)
-// </script> 
+// </script>
+
+function doSomething() {
+    document.writeln("This is a test function to demonstrate the JavaScript file is loaded.");
+}
