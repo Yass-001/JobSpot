@@ -36,6 +36,63 @@ namespace JobSpot.Repository.Tests
         }
 
         [Fact]
+        public async Task Q_Index_ReturnsAllJobPostings_ForNonEmployer()
+        {
+            // Arrange
+            var repoMock = new Mock<IRepository<JobPosting>>();
+            var concreteRepoMock = new Mock<JobPostingRepository>();
+            var userManagerMock = new Mock<IUserManager>();
+            var loggerMock = new Mock<ILogger<JobPostingsController>>();
+
+            var list = new List<JobPosting>
+            {
+                new JobPosting { Id = Guid.NewGuid(), Title = "A", UserId = "u1" },
+                new JobPosting { Id = Guid.NewGuid(), Title = "B", UserId = "u2" }
+            };
+            repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(list);
+
+            // Setup concrete repo to return search results
+            var searchResult = new PaginatedResult<JobPosting>
+            {
+                Items = list,
+                TotalCount = list.Count,
+                PageNumber = 1,
+                PageSize = 9
+            };
+            concreteRepoMock.Setup(r => r.SearchAndFilterAsync(
+                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<decimal?>(),
+                It.IsAny<decimal?>(), It.IsAny<int?>(),
+                It.IsAny<JobSortOption>(), It.IsAny<int>(), It.IsAny<int>()))
+                .ReturnsAsync(searchResult);
+
+            var controller = new JobPostingsController(repoMock.Object, concreteRepoMock.Object, userManagerMock.Object, loggerMock.Object)
+            {
+                ControllerContext = CreateControllerContext()
+            };
+
+            // Act
+            var result = await controller.Index();
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var paginated = Assert.IsType<PaginatedResult<JobPosting>>(viewResult.Model);
+
+            // Verify structure
+            Assert.NotNull(paginated.Items);
+            Assert.Equal(2, paginated.Items.Count());
+            Assert.Equal(2, paginated.TotalCount);
+
+            // Verify items are from original list
+            Assert.Contains(paginated.Items, jp => jp.Title == "A" && jp.UserId == "u1");
+            Assert.Contains(paginated.Items, jp => jp.Title == "B" && jp.UserId == "u2");
+
+            // Verify pagination defaults
+            Assert.Equal(1, paginated.PageNumber);
+            Assert.Equal(2, paginated.PageSize);
+
+        }
+
+            [Fact]
         public async Task Index_ReturnsAllJobPostings_ForNonEmployer()
         {
             // Arrange
@@ -51,6 +108,8 @@ namespace JobSpot.Repository.Tests
             };
             repoMock.Setup(r => r.GetAllAsync()).ReturnsAsync(list);
 
+
+
             var controller = new JobPostingsController(repoMock.Object, concreteRepoMock.Object, userManagerMock.Object, loggerMock.Object)
             {
                 ControllerContext = CreateControllerContext()
@@ -63,17 +122,16 @@ namespace JobSpot.Repository.Tests
             var viewResult = Assert.IsType<ViewResult>(result);
             //var model = Assert.IsAssignableFrom<IEnumerable<JobPosting>>(viewResult.Model);
             //Assert.Equal(2, model.Count());
-            //var paginated = Assert.IsType<PaginatedResult<JobPosting>>(viewResult.Model);
-            //var expectedUserId = list.First().UserId;
+            var paginated = Assert.IsType<PaginatedResult<JobPosting>>(viewResult.Model);
+            var expectedUserId = list.First().UserId;
             var model = Assert.IsType<PaginatedResult<JobPosting>>(viewResult.Model);
 
             //Assert.Equal(2, model.Items.Count());
             //Assert.Contains(model.Items, x => x.Title == "A");
             //Assert.Contains(model.Items, x => x.Title == "B");
-            //Assert.All(paginated.Items, jp => Assert.Equal(expectedUserId, jp.UserId));
-            //Assert.Single(paginated.Items);
-            //Assert.Equal(1, paginated.TotalCount);
-            //Assert.Equal(2, paginated.TotalCount);
+            Assert.All(paginated.Items, jp => Assert.Equal(expectedUserId, jp.UserId));
+            Assert.Single(paginated.Items);
+            Assert.Equal(2, paginated.TotalCount);
         }
 
         [Fact]
